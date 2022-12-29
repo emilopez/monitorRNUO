@@ -1,6 +1,9 @@
+from pathlib import Path
+
 import streamlit as st
 import pandas as pd
 import numpy as np
+
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
@@ -14,7 +17,11 @@ st.markdown("# Parámetros ambientales")
 st.write("""Registros mediante sondas multiparamétricas""")
 
 
-datos = pd.read_csv("/home/emiliano/data/dev/webRNUO/datos/multiparametricas.csv", sep=",")
+cwd = Path.cwd()
+fn  = cwd / "datos" / "multiparametricas.csv"
+
+
+datos = pd.read_csv(fn, sep=",")
 
 tab1, tab2 = st.tabs(["DATOS", "CALIBRACIÓN"])
 
