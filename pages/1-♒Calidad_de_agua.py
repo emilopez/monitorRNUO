@@ -9,7 +9,7 @@ from plotly.subplots import make_subplots
 
 
 
-st.set_page_config(page_title="Parámetros del agua", 
+st.set_page_config(page_title="Parámetros ambientales", 
                     page_icon="♒", 
                     layout="wide")
 
