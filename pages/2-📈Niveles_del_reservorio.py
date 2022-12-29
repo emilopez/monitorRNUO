@@ -31,6 +31,6 @@ with tab1:
         fig.add_trace(go.Scattergl(x = xdata, y = 1.5*ydata + 1.5, mode="markers+lines", name="Canal 2"))
         fig.add_trace(go.Scattergl(x = xdata, y = ydata-0.2 + 1.5, mode="markers+lines", name="Reservorio"))
 
-        fig.update_layout(title="pH", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+        fig.update_layout(title="Niveles del reservorio", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
 
         st.plotly_chart(fig, use_container_width=True)
