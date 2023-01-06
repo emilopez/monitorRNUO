@@ -23,7 +23,7 @@ fn  = cwd / "datos" / "distancia_R1.csv"
 r1_df = pd.read_csv(fn, sep=";")
 
 fechaR1 = r1_df["datetime"]
-distaR1 = r1_df["distancia"]
+distaR1 = 300 - r1_df["distancia"]
 voltaR1 = r1_df["voltaje"]
 
 with tab1:
@@ -31,14 +31,22 @@ with tab1:
 
     with placeholder.container():
 
-        fig = go.Figure()
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="markers+lines", name="Canal 1"))
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+50, mode="markers+lines", name="Alcantarilla 1 (falso)"))
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+60, mode="markers+lines", name="Alcantarilla 2 (falso)"))
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+70, mode="markers+lines", name="Reservorio (falso)"))
+        fig = make_subplots(specs=[[{"secondary_y": True}]])
 
+        #lluvia_df = pd.DataFrame({"Fecha": ["2023-01-01 13:50"], "Precipitación":[9.25]})
+  
+        # niveles
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1,    mode="markers+lines", opacity=0.8, name="Canal 1"),secondary_y=False)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+50, mode="markers+lines", opacity=0.2, name="Alcantarilla 1 (falso)"),secondary_y=False)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+60, mode="markers+lines", opacity=0.2, name="Alcantarilla 2 (falso)"),secondary_y=False)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+70, mode="markers+lines", opacity=0.2, name="Reservorio (falso)"),secondary_y=False)
 
-        fig.update_layout(title="Niveles del reservorio (Distancia!)", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+        # precipitacion
+        #fig.add_trace(go.Bar(x = lluvia_df["Fecha"], y = lluvia_df["Precipitación"], name="Lluvia"), secondary_y=True)
+
+        fig.update_yaxes(title_text="Nivel hidrométrico [cm]", secondary_y=False)#, range=[50,150])
+        #fig.update_yaxes(title_text="Precipitación [mm]", secondary_y=True, range=[10,0])
+        fig.update_layout(title="Niveles del reservorio (Distancia!)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
 
         st.plotly_chart(fig, use_container_width=True)
 
