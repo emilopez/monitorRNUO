@@ -23,12 +23,12 @@ fn  = cwd / "datos" / "multiparametricas.csv"
 
 datos = pd.read_csv(fn, sep=",")
 
-tab1, tab2 = st.tabs(["DATOS", "CALIBRACIÓN"])
-
-with tab1:
-    st.write("datos")
+tab1, tab2 = st.tabs(["CALIBRACIÓN","DATOS"])
 
 with tab2:
+    st.write("datos")
+
+with tab1:
     # creating a single-element container
     placeholder = st.empty()
 
@@ -56,6 +56,7 @@ with tab2:
                 delta=32,
             )
             st.write("### Test sondas")
+
             # create three columns for charts
             fig_col1, fig_col2, fig_col3 = st.columns(3)
 

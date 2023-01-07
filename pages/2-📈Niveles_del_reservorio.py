@@ -36,10 +36,10 @@ with tab1:
         #lluvia_df = pd.DataFrame({"Fecha": ["2023-01-01 13:50"], "Precipitación":[9.25]})
   
         # niveles
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1,    mode="markers+lines", opacity=0.8, name="Canal 1"),secondary_y=False)
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+50, mode="markers+lines", opacity=0.2, name="Alcantarilla 1 (falso)"),secondary_y=False)
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+60, mode="markers+lines", opacity=0.2, name="Alcantarilla 2 (falso)"),secondary_y=False)
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+70, mode="markers+lines", opacity=0.2, name="Reservorio (falso)"),secondary_y=False)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1,    mode="markers", opacity=0.8, name="Canal 1"),secondary_y=False)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+50, mode="markers", opacity=0.2, name="Alcantarilla 1 (falso)"),secondary_y=False)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+60, mode="markers", opacity=0.2, name="Alcantarilla 2 (falso)"),secondary_y=False)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+70, mode="markers", opacity=0.2, name="Reservorio (falso)"),secondary_y=False)
 
         # precipitacion
         #fig.add_trace(go.Bar(x = lluvia_df["Fecha"], y = lluvia_df["Precipitación"], name="Lluvia"), secondary_y=True)
