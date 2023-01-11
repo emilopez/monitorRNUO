@@ -1,18 +1,18 @@
+from pathlib import Path
+
 import streamlit as st
 import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 
-try:
-    mapbox_access_token = st.secrets["mapbox_token"]
-except:
-    mapbox_access_token = open(".mapbox_token").read()
+mapbox_access_token = st.secrets["mapbox_token"]
 
 st.set_page_config(page_title="Puntos de observación", 
                     page_icon="🌎", 
                     layout="wide")
 
 st.markdown("# Puntos de observación")
+
 
 data = [("Alcantarilla 1", -31.607389567484503, -60.72415767069878),
         ("Alcantarilla 2", -31.606938478563542, -60.72508183841553),
