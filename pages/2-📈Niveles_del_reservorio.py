@@ -46,7 +46,7 @@ with tab1:
 
         fig.update_yaxes(title_text="Nivel hidrométrico [cm]", secondary_y=False)#, range=[50,150])
         #fig.update_yaxes(title_text="Precipitación [mm]", secondary_y=True, range=[10,0])
-        fig.update_layout(title="Niveles del reservorio (Distancia!)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+        fig.update_layout(title="Niveles del reservorio", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
 
         st.plotly_chart(fig, use_container_width=True)
 
