@@ -1,2 +1,2 @@
 datos/R1/
-pages/.mapbox_token
+.streamlit/secrets.toml
