@@ -56,7 +56,8 @@ with tab1:
                 delta=32,
             )
             st.write("### Test sondas")
-
+            
+            
             # create three columns for charts
             fig_col1, fig_col2, fig_col3 = st.columns(3)
 
@@ -99,4 +100,6 @@ with tab1:
                 st.plotly_chart(fig3, use_container_width=True)
 
     with st.expander("Ver tabla de registros de sondas multiparamétricas"):
+        with open(fn) as f:
+            st.download_button('Download CSV', f)
         st.write(datos)

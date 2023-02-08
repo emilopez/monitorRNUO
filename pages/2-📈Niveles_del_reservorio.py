@@ -30,6 +30,8 @@ with tab1:
     placeholder = st.empty()
 
     with placeholder.container():
+        with open(fn) as f:
+            st.download_button('Download CSV', f)
 
         fig = make_subplots(specs=[[{"secondary_y": True}]])
 

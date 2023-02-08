@@ -1,7 +1,10 @@
 # https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
+from pathlib import Path
+
 import datetime
 import streamlit as st
 import numpy as np
+import pandas as pd
 
 import plotly.graph_objects as go
 import plotly.express as px
@@ -97,17 +100,21 @@ with placeholder.container():
         st.plotly_chart(fig, use_container_width=True)
     
     with fig_col2:
-        xdata = np.arange(0,2,0.1)
-        ydata = np.exp(xdata)*np.sin(2*np.pi*2*xdata)
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
+        cwd = Path.cwd()
+        fn  = cwd / "datos" / "lluvia_cim" / "precipitacion.csv"
+        
+        data_cim = pd.read_csv(fn, sep="\t", parse_dates=["Fecha"])
+        xdata = data_cim["Fecha"]
+        ydata = data_cim["Lectura"]
 
-        fig.add_trace(go.Bar(x = xdata, y = 0.5 + 0.3*np.sin(2*np.pi*xdata+np.pi/4), name="Precipitación"), secondary_y=True)
+        fig = go.Figure()
+        fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'))
 
-        fig.add_trace(go.Scattergl(x = xdata, y = -2 + -0.5*np.sin(2*np.pi*xdata+np.pi/2), name="N. Freática"), secondary_y=False)
+        #fig.add_trace(go.Scattergl(x = xdata, y = -2 + -0.5*np.sin(2*np.pi*xdata+np.pi/2), name="N. Freática"), secondary_y=False)
 
 
         #fig.update_layout(title="Hidro-Meteorología", yaxis_title="Lluvia [mm]", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=0.9))
-        fig.update_yaxes(title_text="Precipitación [mm]", secondary_y=True, range=[0,1])
-        fig.update_yaxes(title_text="Profundiad NF [cmca]", secondary_y=False, range=[-5,0])
-
+        fig.update_yaxes(title_text="Precipitación [mm]")
+        #fig.update_yaxes(title_text="Profundiad NF [cmca]", secondary_y=False, range=[-5,0])
+        fig.update_layout(title="Precipitación acumulada cada 10 minutos", xaxis_range=[datetime.datetime(2023, 1, 1), datetime.datetime(2023, 2, 8)])
         st.plotly_chart(fig, use_container_width=True)
