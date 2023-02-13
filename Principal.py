@@ -103,7 +103,8 @@ with placeholder.container():
         cwd = Path.cwd()
         fn  = cwd / "datos" / "lluvia_cim" / "precipitacion.csv"
         
-        data_cim = pd.read_csv(fn, sep="\t", parse_dates=["Fecha"])
+        data_cim = pd.read_csv(fn, sep="\t", parse_dates=["Fecha"], dayfirst=True)
+        st.write(data_cim)
         xdata = data_cim["Fecha"]
         ydata = data_cim["Lectura"]
 
