@@ -100,16 +100,28 @@ with placeholder.container():
         st.plotly_chart(fig, use_container_width=True)
     
     with fig_col2:
-        cwd = Path.cwd()
-        fn  = cwd / "datos" / "lluvia_cim" / "precipitacion.csv"
         
-        data_cim = pd.read_csv(fn, sep="\t", parse_dates=["Fecha"], dayfirst=True)
-        #st.write(data_cim)
-        xdata = data_cim["Fecha"]
-        ydata = data_cim["Lectura"]
+        cwd = Path.cwd()
+        #fn  = cwd / "datos" / "lluvia_cim" / "precipitacion.csv"
+        fn  = cwd / "datos" / "lluvia_cim" / "estacion_cim_nueva.csv"
+        data_cim = pd.read_csv(fn, parse_dates=["Fecha"], dayfirst=True, sep=";")
+        data_cim = data_cim[["Fecha", "Lluvia Caida (mm)"]] 
+        
+        option = st.selectbox('Precipitación',('Diaria', 'Intensidad'))
+        if option == "Intensidad":
+            xdata = data_cim["Fecha"]
+            ydata = data_cim["Lluvia Caida (mm)"]
+        elif option == "Diaria":
+            data_cim["date"] = data_cim["Fecha"].dt.date
+            lluvia_x_dia = data_cim.groupby("date").sum()
+            
+            xdata = lluvia_x_dia.index
+            ydata = lluvia_x_dia["Lluvia Caida (mm)"]
 
         fig = go.Figure()
         fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'))
+
+        #fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'))
 
         #fig.add_trace(go.Scattergl(x = xdata, y = -2 + -0.5*np.sin(2*np.pi*xdata+np.pi/2), name="N. Freática"), secondary_y=False)
 
@@ -117,5 +129,5 @@ with placeholder.container():
         #fig.update_layout(title="Hidro-Meteorología", yaxis_title="Lluvia [mm]", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=0.9))
         fig.update_yaxes(title_text="Precipitación [mm]")
         #fig.update_yaxes(title_text="Profundiad NF [cmca]", secondary_y=False, range=[-5,0])
-        fig.update_layout(title="Precipitación acumulada cada 10 minutos", xaxis_range=[datetime.datetime(2023, 1, 1), datetime.datetime(2023, 2, 8)])
+        #fig.update_layout(title="Precipitación Diaria", xaxis_range=[datetime.datetime(2023, 1, 1), datetime.datetime(2023, 2, 8)])
         st.plotly_chart(fig, use_container_width=True)
