@@ -59,6 +59,8 @@ with tab1:
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
 
+        fig.update_layout(height=700)
+
         st.plotly_chart(fig, use_container_width=True)
 
         with open(fn) as f:
