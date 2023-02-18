@@ -8,9 +8,7 @@ import pandas as pd
 
 import plotly.graph_objects as go
 import plotly.express as px
-from plotly.subplots import make_subplots
-
-
+from plotly.subplots import make_subplots 
 
 st.set_page_config(
     page_title="Monitor Reserva Natural Urbana del Oeste - Santa Fe",
