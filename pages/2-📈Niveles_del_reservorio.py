@@ -1,3 +1,5 @@
+import datetime
+
 from pathlib import Path
 
 import streamlit as st
@@ -18,6 +20,7 @@ st.write("""Altura hidrométrica en diferentes puntos del reservorio""")
 
 tab1, tab2 = st.tabs(["DATOS", "DISPOSITIVOS"])
 
+# niveles
 cwd = Path.cwd()
 fn  = cwd / "datos" / "distancia_R1.csv"
 r1_df = pd.read_csv(fn, sep=";")
@@ -26,32 +29,40 @@ fechaR1 = r1_df["datetime"]
 distaR1 = 300 - r1_df["distancia"]
 voltaR1 = r1_df["voltaje"]
 
+# estacion pegasus nueva CIM
+fn  = cwd / "datos" / "lluvia_cim" / "estacion_cim_nueva.csv"
+data_cim = pd.read_csv(fn, parse_dates=["Fecha"], dayfirst=True, sep=";")
+data_cim = data_cim[["Fecha", "Lluvia Caida (mm)"]]
+
 with tab1:
     placeholder = st.empty()
 
-    with placeholder.container():
-        with open(fn) as f:
-            st.download_button('Download CSV', f)
+    with placeholder.container(): 
+        
+        option = st.selectbox('Precipitación',('Diaria', 'Intensidad'))
+        if option == "Intensidad":
+            xdata = data_cim["Fecha"]
+            ydata = data_cim["Lluvia Caida (mm)"]
+        elif option == "Diaria":
+            data_cim["date"] = data_cim["Fecha"].dt.date
+            lluvia_x_dia = data_cim.groupby("date").sum()
+            
+            xdata = lluvia_x_dia.index
+            ydata = lluvia_x_dia["Lluvia Caida (mm)"]
 
-        fig = make_subplots(specs=[[{"secondary_y": True}]])
 
-        #lluvia_df = pd.DataFrame({"Fecha": ["2023-01-01 13:50"], "Precipitación":[9.25]})
-  
-        # niveles
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1,    mode="markers", opacity=0.8, name="Canal 1"),secondary_y=False)
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+50, mode="markers", opacity=0.2, name="Alcantarilla 1 (falso)"),secondary_y=False)
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+60, mode="markers", opacity=0.2, name="Alcantarilla 2 (falso)"),secondary_y=False)
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1+70, mode="markers", opacity=0.2, name="Reservorio (falso)"),secondary_y=False)
+        fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("Niveles", "Precipitación"))
 
-        # precipitacion
-        #fig.add_trace(go.Bar(x = lluvia_df["Fecha"], y = lluvia_df["Precipitación"], name="Lluvia"), secondary_y=True)
+        fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
+        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Canal 1"), row=1, col=1)
 
-        fig.update_yaxes(title_text="Nivel hidrométrico [cm]", secondary_y=False)#, range=[50,150])
-        #fig.update_yaxes(title_text="Precipitación [mm]", secondary_y=True, range=[10,0])
-        fig.update_layout(title="Niveles del reservorio", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+        fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
+        fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
 
         st.plotly_chart(fig, use_container_width=True)
 
+        with open(fn) as f:
+            st.download_button('Download CSV', f)
 with tab2:
     placeholder2 = st.empty()
     with placeholder2.container():
