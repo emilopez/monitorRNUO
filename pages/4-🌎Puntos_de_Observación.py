@@ -17,7 +17,9 @@ st.markdown("# Puntos de observación")
 data = [("Alcantarilla 1", -31.607389567484503, -60.72415767069878),
         ("Alcantarilla 2", -31.606938478563542, -60.72508183841553),
         ("Canal 1", -31.607579126197045, -60.72454258578498),
-        ("Reservorio", -31.608526281424744, -60.724909548109295)]
+        ("Reservorio", -31.608526281424744, -60.724909548109295),
+        ("Recreo RP 70",-31.49099, -60.78164), 
+        ("Santo Tomé", -31.667723, -60.752450)]
 
 
 puntos_df = pd.DataFrame(data, columns=["Sitio", "lat", "lon"])
@@ -26,16 +28,16 @@ mapa = go.Scattermapbox(mode = "markers", lon = puntos_df["lon"], lat = puntos_d
                                         hovertemplate =   "<b>" + puntos_df["Sitio"] + "</b><br><br>" + "Coord: %{lon},%{lat}<br>" 
                                         )
 layout = go.Layout(
-    #title = "Estaciones de medición",
-    title_x=0.5,
-    title_y=0.95,
+    title = "Estaciones de medición",
+    title_x=0,
+    title_y=0.99,
     width=600, height=900, 
     margin ={'l':0,'t':50,'b':0,'r':0},
     mapbox = {
         'accesstoken':mapbox_access_token,
         'center': {'lat': -31.608526281424744, 'lon': -60.724909548109295},
         'style': "satellite-streets",
-        'zoom': 17})
+        'zoom': 11})
 figure = go.Figure(data=[mapa], layout=layout)
 
 placeholder = st.empty()
