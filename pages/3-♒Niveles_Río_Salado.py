@@ -15,13 +15,15 @@ st.markdown("# Niveles del Río Salado")
 st.write("""Altura hidrométrica en Recreo Ruta Provincial 70 y en Santo Tomé.""")
 
 # Datos Rio Salado
+ceroRecreo = 11.09
+ceroSaTome =  8.07
 cwd = Path.cwd()
 fn  = cwd / "datos" / "Alturas-RecreoR70-SantoTome.csv"
 data_salado = pd.read_csv(fn, parse_dates=["Fecha"], dayfirst=True, sep=";")
 
 fig = go.Figure()
-fig.add_trace(go.Scattergl(x=data_salado["Fecha"], y=data_salado["Recreo R70"], name="Recreo RP 70"))
-fig.add_trace(go.Scattergl(x=data_salado["Fecha"], y=data_salado["Santo Tome"], name="Santo Tomé"))
+fig.add_trace(go.Scattergl(x=data_salado["Fecha"], y=data_salado["Recreo R70"] + ceroRecreo, name="Recreo RP 70"))
+fig.add_trace(go.Scattergl(x=data_salado["Fecha"], y=data_salado["Santo Tome"] + ceroSaTome, name="Santo Tomé"))
 
 st.plotly_chart(fig, use_container_width=True)
 st.write("""*Datos proporcionados por la Secretaría de Recursos Hídricos, Ministerios de
