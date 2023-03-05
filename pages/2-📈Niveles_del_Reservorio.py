@@ -30,7 +30,7 @@ distaR1 = 300 - r1_df["distancia"]
 voltaR1 = r1_df["voltaje"]
 
 # estacion pegasus nueva CIM
-fn  = cwd / "datos" / "lluvia_cim" / "estacion_cim_nueva.csv"
+fn  = cwd / "datos" / "lluvia_cim" / "estacion_cim_nueva_solo_lluvia.csv"
 data_cim = pd.read_csv(fn, parse_dates=["Fecha"], dayfirst=True, sep=";")
 data_cim = data_cim[["Fecha", "Lluvia Caida (mm)"]]
 
