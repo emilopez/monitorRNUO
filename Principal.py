@@ -2,7 +2,7 @@
 # https://github.com/blackary/st_pages
 from pathlib import Path
 
-from st_pages import Page, Section, show_pages, add_page_title
+#from st_pages import Page, Section, show_pages, add_page_title
 import streamlit as st
 
 import datetime
