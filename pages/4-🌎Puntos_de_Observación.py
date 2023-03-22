@@ -14,20 +14,20 @@ st.set_page_config(page_title="Puntos de observación",
 st.markdown("# Puntos de observación")
 
 
-data = [("Alcantarilla 1", -31.607389567484503, -60.72415767069878),
-        ("Alcantarilla 2", -31.606938478563542, -60.72508183841553),
-        ("Canal 1", -31.607579126197045, -60.72454258578498),
-        ("Canal 2", -31.60769708,-60.72475576),
-        ("Canal 3/Reservorio", -31.608526281424744, -60.724909548109295),
-        ("Recreo RP 70",-31.49099, -60.78164), 
-        ("Santo Tomé", -31.667723, -60.752450),
-        ("Nivel freático",-31.6026762,-60.7131065)]
+data = [("Alcantarilla 1"    ,"Nivel hidrométrico", -31.607389567484503, -60.72415767069878),
+        ("Alcantarilla 2"    ,"Nivel hidrométrico", -31.606938478563542, -60.72508183841553),
+        ("Canal 1"           ,"Nivel hidrométrico y calidad de agua", -31.607579126197045, -60.72454258578498),
+        ("Canal 2"           ,"Calidad de agua", -31.60769708,-60.72475576),
+        ("Canal 3/Reservorio","Calidad de agua", -31.608526281424744, -60.724909548109295),
+        ("Recreo RP 70"      ,"Nivel hidrométrico",-31.49099, -60.78164), 
+        ("Santo Tomé"        ,"Nivel hidrométrico", -31.667723, -60.752450),
+        ("MISPyH"            ,"Profundidad napa freática",-31.6026762,-60.7131065)]
 
 
-puntos_df = pd.DataFrame(data, columns=["Sitio", "lat", "lon"])
+puntos_df = pd.DataFrame(data, columns=["Sitio","Parámetros", "lat", "lon"])
 
 mapa = go.Scattermapbox(mode = "markers", lon = puntos_df["lon"], lat = puntos_df["lat"], marker = {'size': 10}, name = "",
-                                        hovertemplate =   "<b>" + puntos_df["Sitio"] + "</b><br><br>" + "Coord: %{lon},%{lat}<br>" 
+                                        hovertemplate =   "<b>" + puntos_df["Sitio"] + "</b><br><br>" + "Coord: %{lon},%{lat}<br>", 
                                         )
 layout = go.Layout(
     title = "Estaciones de medición",
@@ -46,4 +46,6 @@ placeholder = st.empty()
 
 with placeholder.container():
     # show mapa 
-    st.plotly_chart(figure, use_container_width=False)
+    c1, c2 = st.columns(2)
+    c1.plotly_chart(figure, use_container_width=False)
+    c2.write(puntos_df)
