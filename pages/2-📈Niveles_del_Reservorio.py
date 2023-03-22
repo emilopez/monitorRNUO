@@ -25,6 +25,11 @@ cwd = Path.cwd()
 fn  = cwd / "datos" / "distancia_R1.csv"
 r1_df = pd.read_csv(fn, sep=";")
 
+# ultimos 14 dias (para un T=1min) = 14*24*60 = 7200
+cant_dias = 14
+nobs = cant_dias * 24 * 60
+r1_df = r1_df[-nobs:]
+
 fechaR1 = r1_df["datetime"]
 distaR1 = 300 - r1_df["distancia"]
 voltaR1 = r1_df["voltaje"]
@@ -33,6 +38,11 @@ voltaR1 = r1_df["voltaje"]
 fn  = cwd / "datos" / "lluvia_cim" / "estacion_cim_nueva_solo_lluvia.csv"
 data_cim = pd.read_csv(fn, parse_dates=["Fecha"], dayfirst=True, sep=";")
 data_cim = data_cim[["Fecha", "Lluvia Caida (mm)"]]
+
+# ultimos 5 dias (para un T=15min) = 14*24*4 = 480
+nobs = cant_dias * 24 * 4
+data_cim = data_cim[-nobs:]
+
 
 with tab1:
     placeholder = st.empty()
