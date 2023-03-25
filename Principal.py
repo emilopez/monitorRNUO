@@ -136,6 +136,6 @@ with placeholder.container():
 
         fig = go.Figure()
         fig.add_trace(go.Scattergl(x = xdata, y = ydata, name="NF", mode="markers+lines"))
-        fig.update_layout(title="Nivel napa freática", yaxis_title = "Profundidad [cm]", xaxis_title = "Fecha", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=0.9))
+        fig.update_layout(title="Profundidad napa freática", yaxis_title = "Profundidad [cm]", xaxis_title = "Fecha", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=0.9))
         fig.update_yaxes(autorange="reversed")
         st.plotly_chart(fig, use_container_width=True)
