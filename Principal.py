@@ -94,7 +94,7 @@ with placeholder.container():
 
         st.plotly_chart(fig, use_container_width=True)        
     
-    fig_col1, fig_col2 = st.columns(2)
+    fig_col1, fig_col2, fig_col3 = st.columns(3)
     with fig_col1:
         cwd = Path.cwd()
         fn  = cwd / "datos" / "distancia_R1_last_week.csv"
@@ -125,4 +125,17 @@ with placeholder.container():
         fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'))
         fig.update_yaxes(title_text="Precipitación [mm]")
         fig.update_layout(title="Precipitación Diaria")
+        st.plotly_chart(fig, use_container_width=True)
+
+    with fig_col3:
+        cwd = Path.cwd()
+        fn  = cwd / "datos" / "nf_R2_last_week.csv"
+        data_R2_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+        xdata = data_R2_last_week["datetime"]
+        ydata = data_R2_last_week["nf"]
+
+        fig = go.Figure()
+        fig.add_trace(go.Scattergl(x = xdata, y = ydata, name="NF", mode="markers+lines"))
+        fig.update_layout(title="Nivel napa freática", yaxis_title = "Profundidad [cm]", xaxis_title = "Fecha", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=0.9))
+        fig.update_yaxes(autorange="reversed")
         st.plotly_chart(fig, use_container_width=True)
