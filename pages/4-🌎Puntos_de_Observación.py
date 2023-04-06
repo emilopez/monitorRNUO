@@ -21,7 +21,8 @@ data = [("Alcantarilla 1"    ,"Nivel hidrométrico", -31.607389567484503, -60.72
         ("Canal 3/Reservorio","Calidad de agua", -31.608526281424744, -60.724909548109295),
         ("Recreo RP 70"      ,"Nivel hidrométrico",-31.49099, -60.78164), 
         ("Santo Tomé"        ,"Nivel hidrométrico", -31.667723, -60.752450),
-        ("MISPyH"            ,"Profundidad napa freática",-31.6026762,-60.7131065)]
+        ("MISPyH"            ,"Profundidad napa freática",-31.6026762,-60.7131065),
+		("La Redonda"        ,"Profundidad napa freática",-31.6199931,-60.6930897)]
 
 
 puntos_df = pd.DataFrame(data, columns=["Sitio","Parámetros", "lat", "lon"])
