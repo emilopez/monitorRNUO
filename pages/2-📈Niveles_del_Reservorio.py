@@ -26,7 +26,7 @@ fn  = cwd / "datos" / "distancia_R1.csv"
 r1_df = pd.read_csv(fn, sep=";")
 
 # ultimos 14 dias (para un T=1min) = 14*24*60 = 7200
-cant_dias = 14
+cant_dias = 60
 nobs = cant_dias * 24 * 60
 r1_df = r1_df[-nobs:]
 
@@ -61,13 +61,23 @@ with tab1:
             ydata = lluvia_x_dia["Lluvia Caida (mm)"]
 
 
-        fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("Niveles", "Precipitación"))
+        fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación</b>", "<b>Napa freática</b>"))
 
         fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
         fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Canal 1"), row=1, col=1)
 
+        cwd = Path.cwd()
+        fn  = cwd / "datos" / "nf_R2_last_week.csv"
+        data_R2_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+        xdata = data_R2_last_week["datetime"]
+        ydata = data_R2_last_week["nf"]
+
+        fig.add_trace(go.Scattergl(x = xdata, y = ydata, name="NF", mode="markers+lines"), row=3, col=1)
+
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
+        fig.update_yaxes(title_text= "Profundidad [cm]", autorange="reversed", row=3, col=1)
+        fig.update_xaxes(title_text="Fecha", row=3, col=1)
 
         fig.update_layout(height=700)
 
