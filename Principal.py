@@ -131,11 +131,17 @@ with placeholder.container():
         cwd = Path.cwd()
         fn  = cwd / "datos" / "nf_R2_last_week.csv"
         data_R2_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
-        xdata = data_R2_last_week["datetime"]
-        ydata = data_R2_last_week["nf"]
+        xdata_R2 = data_R2_last_week["datetime"]
+        ydata_R2 = data_R2_last_week["nf"]
+
+        fn  = cwd / "datos" / "nf_R3_last_week.csv"
+        data_R3_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+        xdata_R3 = data_R3_last_week["datetime"]
+        ydata_R3 = data_R3_last_week["nf"]
 
         fig = go.Figure()
-        fig.add_trace(go.Scattergl(x = xdata, y = ydata, name="NF", mode="markers+lines"))
-        fig.update_layout(title="Profundidad napa freática (Taller MISPyH)", yaxis_title = "Profundidad [cm]", xaxis_title = "Fecha", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=0.9))
+        fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="lines"))
+        fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="Reserva (R3)", mode="lines"))
+        fig.update_layout(title="Napa freática", yaxis_title = "Profundidad [cm]", xaxis_title = "Fecha", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=0.9))
         fig.update_yaxes(autorange="reversed")
         st.plotly_chart(fig, use_container_width=True)
