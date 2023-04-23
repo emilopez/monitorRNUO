@@ -4,6 +4,7 @@ from pathlib import Path
 
 #from st_pages import Page, Section, show_pages, add_page_title
 import streamlit as st
+from streamlit_extras.app_logo import add_logo
 
 import datetime
 import numpy as np
@@ -17,7 +18,7 @@ st.set_page_config(
     page_title="Monitor Reserva Natural Urbana del Oeste - Santa Fe",
     layout="wide"
 )
-
+add_logo("logo.jpg")
 st.write("# Monitor RNUO | Santa Fe")
 st.write("Proyecto Científico de Monitoreo Hidro-Ambiental de la Reserva Natural Urbana del Oeste.")
 

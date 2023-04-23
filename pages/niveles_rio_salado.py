@@ -1,6 +1,8 @@
 from pathlib import Path
 
 import streamlit as st
+from streamlit_extras.app_logo import add_logo
+
 import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
@@ -10,6 +12,7 @@ mapbox_access_token = st.secrets["mapbox_token"]
 st.set_page_config(page_title="Niveles del Río Salado", 
                     page_icon="🌎", 
                     layout="wide")
+add_logo("logo.jpg")
 
 st.markdown("# Niveles del Río Salado")
 st.write("""Altura hidrométrica en Recreo Ruta Provincial 70 y en Santo Tomé.""")

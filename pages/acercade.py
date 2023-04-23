@@ -4,17 +4,17 @@ from pathlib import Path
 
 #from st_pages import Page, Section, show_pages, add_page_title
 import streamlit as st
-
+from streamlit_extras.app_logo import add_logo
 
 st.set_page_config(
     page_title="Monitor Reserva Natural Urbana del Oeste - Santa Fe",
     layout="wide"
 )
 
-
+add_logo("logo.jpg")
 
 st.write("# Proyecto Científico de *Monitoreo hidro-ambiental*...")
-col_inv, col_est, col_col = st.columns(3)
+col_inv, col_est = st.columns(2)
 col_inv.write("#### Investigadores")
 col_inv.write("""
 - **Director:** Emiliano López, CEFHAL (FICH / UNL) - elopez@fich.unl.edu.ar
@@ -27,21 +27,30 @@ col_inv.write("""
 - Elisabet Walker, CEFHAL (FICH / UNL) - CONICET
 - Juan Pablo de Rosas, IMASL (UNSL - CONICET)
 - Guillermo Contini, CIM (FICH / UNL)
+
+#### Instituciones
+- Centro de Estudios Fluviales e HidroAmbientales del Litoral (CEFHAL) - FICH / UNL
+- Instituto Nacional de Limnología (INALI), CONICET / UNL
+- Secretaría de Ambiente y Cambio Climático (SACC), Municipalidad de Santa Fe
+- Asociación Civil Contraversiones
 """)
+              
 col_est.write("""              
 #### Estudiantes / Pasantes
 - Giuliana Luna (FICH / UNL)
 - Ayelen Miranda (FHUC / UNL)
 - Alex Mendoza (FICH / UNL)
+
+#### Colaboradores 
+- Luciana Manelli (FICH / UNL - SACC)
+- Martín Morales (AC Contraversiones)
+- María Claret (FICH / UNL)
+- Emanuel Blanco (AC Contraversiones)
+
+#### Financiamiento
+Fundación Bunge y Born, Concurso Aguas Claras, 2022.
 """)
 
-col_col.write("""
-#### Colaboradores 
-- Luciana Manelli
-- Martín Morales
-- María Claret
-- Emanuel Blanco
-""")
               
 col_cto, col_datos = st.columns(2)
 

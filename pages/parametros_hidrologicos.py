@@ -3,6 +3,8 @@ import datetime
 from pathlib import Path
 
 import streamlit as st
+from streamlit_extras.app_logo import add_logo
+
 import pandas as pd
 import numpy as np
 
@@ -14,7 +16,7 @@ from plotly.subplots import make_subplots
 st.set_page_config(page_title="Niveles del Reservorio", 
                     page_icon="📈", 
                     layout="wide")
-
+add_logo("logo.jpg")
 st.markdown("# Niveles del Reservorio")
 st.write("""Altura hidrométrica en diferentes puntos del reservorio""")
 
