@@ -38,10 +38,10 @@ hide_streamlit_style = """
             """
 st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
-st.write("# Monitor Hidro-Ambiental de datos abiertos | Santa Fe")
+st.write("# Monitor Hidro-Ambiental de datos abiertos | RNUO | Santa Fe")
 st.write("""En este sitio se puede encontrar todos los datos registrados durante la ejecución del 
 Proyecto Científico denominado **Monitoreo hidro-ambiental para la gestión del agua de la Reserva Natural
-Urbana del Oeste de la ciudad de Santa Fe**.
+Urbana del Oeste (RNUO) de la ciudad de Santa Fe**.
 
 El proyecto ha sido ganador del concurso Aguas Claras, financiado por la Fundación Bunge y Born y es llevado
 adelante por investigadores pertenecientes al **Centro de Estudios Fluviales e HidroAmbientales del Litoral (CEFHAL)**, 
