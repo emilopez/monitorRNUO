@@ -11,9 +11,12 @@ st.set_page_config(
     layout="wide"
 )
 
+
+
 st.write("# Proyecto Científico de *Monitoreo hidro-ambiental*...")
-st.write("### Integrantes")
-st.write("""
+col_inv, col_est, col_col = st.columns(3)
+col_inv.write("#### Investigadores")
+col_inv.write("""
 - **Director:** Emiliano López, CEFHAL (FICH / UNL) - elopez@fich.unl.edu.ar
 - Emiliano A. Veizaga, CEFHAL (FICH / UNL)
 - María Florencia Gutiérrez, INALI/CONICET
@@ -25,20 +28,37 @@ st.write("""
 - Juan Pablo de Rosas, IMASL (UNSL - CONICET)
 - Guillermo Contini, CIM (FICH / UNL)
 """)
+col_est.write("""              
+#### Estudiantes / Pasantes
+- Giuliana Luna (FICH / UNL)
+- Ayelen Miranda (FHUC / UNL)
+- Alex Mendoza (FICH / UNL)
+""")
 
+col_col.write("""
+#### Colaboradores 
+- Luciana Manelli
+- Martín Morales
+- María Claret
+- Emanuel Blanco
+""")
+              
+col_cto, col_datos = st.columns(2)
 
-st.write("### Contacto")
-st.write("""
+col_cto.write("### Contacto")
+col_cto.write("""
 - Twitter: [@ReservaOesteSFe](https://twitter.com/ReservaOesteSFe)
 - Instagram: [reservanaturaloeste.sf](https://www.instagram.com/reservanaturaloeste.sf/)
 - E-mail: reservaoeste.sfe@gmail.com
 """)
 
 
-st.write("### Uso de datos - Licencia")
-st.write('''Se deslinda toda responsabilidad por el uso que se haga de los datos aquí publicados. 
-Los datos son publicados bajo la licencia CC BY-NC-SA:''')
+col_datos.write("### Uso de datos - Licencia")
+
+with col_datos:
+    st.write('''Se deslinda toda responsabilidad por el uso que se haga de los datos aquí publicados. 
+    Los datos son publicados bajo la licencia CC BY-NC-SA:''')
    
-# Render the h1 block, contained in a frame of size 200x200.
-st.components.v1.html('''<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Dataset" property="dct:title" rel="dct:type">Monitor hidro-ambiental de la RNUO</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
-''', width=500, height=300)
+    # Render the h1 block, contained in a frame of size 200x200.
+    st.components.v1.html('''<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Dataset" property="dct:title" rel="dct:type">Monitor hidro-ambiental de la RNUO</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+    ''', width=500, height=300)
