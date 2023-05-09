@@ -45,6 +45,10 @@ data_cim = data_cim[["Fecha", "Lluvia Caida (mm)"]]
 nobs = cant_dias * 24 * 4
 data_cim = data_cim[-nobs:]
 
+# niveles alcantarilla 1
+cwd = Path.cwd()
+fn  = cwd / "datos" / "nivel_R5.csv"
+r5_df = pd.read_csv(fn, sep=";",parse_dates=["datetime"])
 
 with tab1:
     placeholder = st.empty()
@@ -62,7 +66,7 @@ with tab1:
             xdata = lluvia_x_dia.index
             ydata = lluvia_x_dia["Lluvia Caida (mm)"]
 
-        fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación</b>", "<b>Napa freática</b>"))
+        fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación</b>", "<b>Napa freática</b>","<b>Nivel alcantarilla 1</b>"))
 
         fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
         fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Canal 1"), row=1, col=1)
@@ -84,10 +88,12 @@ with tab1:
         fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="markers+lines"), row=3, col=1)
         fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="Reserva (R3)", mode="markers+lines"), row=3, col=1)
 
+        fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["nivel"], name="Alcantarilla 1 (R5)", mode="markers"), row=4, col=1)
 
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
         fig.update_yaxes(title_text= "Profundidad [cm]", autorange="reversed", row=3, col=1)
+        fig.update_yaxes(title_text= "Nivel [cm]", row=4, col=1)
         fig.update_xaxes(title_text="Fecha", row=3, col=1)
 
         fig.update_layout(height=700)
