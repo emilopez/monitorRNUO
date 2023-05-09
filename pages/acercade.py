@@ -47,6 +47,9 @@ col_est.write("""
 - María Claret (FICH / UNL)
 - Emanuel Blanco (AC Contraversiones)
 
+#### Community Manager
+- Alexia Vattovaz
+
 #### Financiamiento
 Fundación Bunge y Born, Concurso Aguas Claras, 2022.
 """)

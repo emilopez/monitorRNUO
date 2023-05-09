@@ -8,6 +8,7 @@ import numpy as np
 
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import plotly.express as px
 
 
 
@@ -21,7 +22,7 @@ st.markdown("# Parámetros ambientales")
 
 cwd = Path.cwd()
 
-tab1, tab2 = st.tabs(["DATOS", "CALIBRACIÓN SONDAS"])
+tab1, tab2, tab3 = st.tabs(["DATOS", "CALIBRACIÓN SONDAS", "INCENDIOS"])
 with tab1:
     
     fn_calidad_agua  = cwd / "datos" / "RESULTADOS-calidad-de-agua.csv"
@@ -168,3 +169,26 @@ with tab2:
         with open(fn) as f:
             st.download_button('Download CSV', f)
         st.write(datos)
+with tab3:
+    fn  = cwd / "datos" / "incendios.csv"
+    df = pd.read_csv(fn, sep=",")
+    
+    st.write("**Mapa de incendios en la RNUO** *(en construcción)*")
+    
+    
+
+    #fig = px.density_mapbox(df, lat='LAT', lon='LON', radius=5,
+    #                        center=dict(lat=0, lon=180), zoom=0,
+    #                        mapbox_style="stamen-terrain")
+    
+    fig = go.Figure(go.Densitymapbox(lat=df.LAT, lon=df.LON, radius=10))
+    fig.update_layout(
+        mapbox_style="stamen-terrain",
+        mapbox_center_lon = -60.6928896,
+        mapbox_center_lat = -31.6243968,
+        mapbox_zoom = 11,
+        width = 600, 
+        height = 500,
+    )
+    st.plotly_chart(fig, use_container_width=False)
+    st.write(df)
