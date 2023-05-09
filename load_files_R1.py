@@ -3,7 +3,7 @@ import glob
 
 import pandas as pd
 
-path = r'datos/R1/'              
+path = r'datos/R1-Nivel-RNUO-Canal1/'              
 all_files = glob.glob(os.path.join(path, "*.CSV"))
 all_files = sorted(all_files, reverse=False)
 
