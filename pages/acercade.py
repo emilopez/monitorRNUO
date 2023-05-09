@@ -51,7 +51,7 @@ col_est.write("""
 - Alexia Vattovaz
 
 #### Financiamiento y Asesoramiento técnico
-[Fundación Bunge y Born(https://www.fundacionbyb.org)], Concurso Aguas Claras, 2022.
+[Fundación Bunge y Born](https://www.fundacionbyb.org), Concurso Aguas Claras, 2022.
 """)
 
               
