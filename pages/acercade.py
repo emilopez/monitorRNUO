@@ -50,8 +50,8 @@ col_est.write("""
 #### Community Manager
 - Alexia Vattovaz
 
-#### Financiamiento
-Fundación Bunge y Born, Concurso Aguas Claras, 2022.
+#### Financiamiento y Asesoramiento técnico
+[Fundación Bunge y Born(https://www.fundacionbyb.org)], Concurso Aguas Claras, 2022.
 """)
 
               
