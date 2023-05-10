@@ -13,12 +13,12 @@ from plotly.subplots import make_subplots
 
 
 
-st.set_page_config(page_title="Niveles del Reservorio", 
+st.set_page_config(page_title="Parámetros Hidrológicos", 
                     page_icon="📈", 
                     layout="wide")
 add_logo("logo.jpg")
-st.markdown("# Niveles del Reservorio")
-st.write("""Altura hidrométrica en diferentes puntos del reservorio""")
+st.markdown("# Parámetros Hidrológicos")
+st.write("""Niveles hidrométricos, precipitación y profundidad de napa freática""")
 
 tab1, tab2 = st.tabs(["DATOS", "DISPOSITIVOS"])
 
@@ -72,22 +72,28 @@ with tab1:
         fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Canal 1"), row=1, col=1)
 
         cwd = Path.cwd()
+        # EQ-R2 NF taller ministerio
         fn  = cwd / "datos" / "nf_R2_last_week.csv"
         data_R2_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
         xdata_R2 = data_R2_last_week["datetime"]
         ydata_R2 = data_R2_last_week["nf"]
         batep_R2 = data_R2_last_week["bateria"]
-
-        cwd = Path.cwd()
+        # EQ-R3 NF RNUO
         fn  = cwd / "datos" / "nf_R3_last_week.csv"
         data_R3_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
         xdata_R3 = data_R3_last_week["datetime"]
         ydata_R3 = data_R3_last_week["nf"]
         batep_R3 = data_R3_last_week["bateria"]
+        # EQ-R4 NF La REDONDA
+        fn  = cwd / "datos" / "nf_R4_last_week.csv"
+        data_R4_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+        xdata_R4 = data_R4_last_week["datetime"]
+        ydata_R4 = data_R4_last_week["nf"]
+        batep_R4 = data_R4_last_week["bateria"]
 
         fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="markers+lines"), row=3, col=1)
         fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="Reserva (R3)", mode="markers+lines"), row=3, col=1)
-
+        fig.add_trace(go.Scattergl(x = xdata_R4, y = ydata_R4, name="La Redonda (R4)", mode="markers+lines"), row=3, col=1)
         fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["nivel"], name="Alcantarilla 1 (R5)", mode="markers"), row=4, col=1)
 
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
