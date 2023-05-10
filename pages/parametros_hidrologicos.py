@@ -62,7 +62,6 @@ with tab1:
         elif option == "Diaria":
             data_cim["date"] = data_cim["Fecha"].dt.date
             lluvia_x_dia = data_cim.groupby("date").sum()
-            
             xdata = lluvia_x_dia.index
             ydata = lluvia_x_dia["Lluvia Caida (mm)"]
 
@@ -98,8 +97,8 @@ with tab1:
 
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
-        fig.update_yaxes(title_text= "Profundidad [cm]", autorange="reversed", row=3, col=1)
-        fig.update_yaxes(title_text= "Nivel [cm]", row=4, col=1)
+        fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=3, col=1)
+        fig.update_yaxes(title_text="Nivel [cm]", row=4, col=1)
         fig.update_xaxes(title_text="Fecha", row=3, col=1)
 
         fig.update_layout(height=700)
@@ -115,5 +114,6 @@ with tab2:
         fig.add_trace(go.Scattergl(x = fechaR1[fechaR1>="2023-04-01"], y = voltaR1[fechaR1>="2023-04-01"]*92.59-296.28, mode="markers+lines", name="R1 Nivel (Canal 1 Reserva)"))
         fig.add_trace(go.Scattergl(x = xdata_R2[-1400:], y = batep_R2[-1400:], mode="markers+lines", name="R2 NF (MISPyH)"))
         fig.add_trace(go.Scattergl(x = xdata_R3[-1400:], y = batep_R3[-1400:], mode="markers+lines", name="R3 NF (Reserva)"))
+        fig.add_trace(go.Scattergl(x = xdata_R4[-1400:], y = batep_R4[-1400:], mode="markers+lines", name="R4 NF (La Redonda)"))
         fig.update_layout(title="Voltaje equipos",legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
         st.plotly_chart(fig, use_container_width=True)
