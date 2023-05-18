@@ -61,7 +61,7 @@ with tab1:
             ydata = data_cim["Lluvia Caida (mm)"]
         elif option == "Diaria":
             data_cim["date"] = data_cim["Fecha"].dt.date
-            lluvia_x_dia = data_cim.groupby("date").sum()
+            lluvia_x_dia = data_cim.groupby("date").sum(numeric_only = True)
             xdata = lluvia_x_dia.index
             ydata = lluvia_x_dia["Lluvia Caida (mm)"]
 
