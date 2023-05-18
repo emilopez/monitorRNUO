@@ -38,7 +38,7 @@ col_inv.write("""
 col_est.write("""              
 #### Estudiantes / Pasantes
 - Giuliana Luna (FICH / UNL)
-- Ayelen Miranda (ESS-FBCB / UNL)
+- Ayelén Miranda (ESS-FBCB / UNL)
 - Alex Mendoza (FICH / UNL)
 
 #### Colaboradores 
