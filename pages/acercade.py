@@ -38,7 +38,7 @@ col_inv.write("""
 col_est.write("""              
 #### Estudiantes / Pasantes
 - Giuliana Luna (FICH / UNL)
-- Ayelen Miranda (FHUC / UNL)
+- Ayelen Miranda (ESS-FBCB / UNL)
 - Alex Mendoza (FICH / UNL)
 
 #### Colaboradores 
@@ -46,6 +46,7 @@ col_est.write("""
 - Martín Morales (AC Contraversiones)
 - María Claret (FICH / UNL)
 - Emanuel Blanco (AC Contraversiones)
+- Lucas Palman (FICH / UNL)
 
 #### Community Manager
 - Alexia Vattovaz
