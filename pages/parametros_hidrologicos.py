@@ -58,7 +58,7 @@ ydata_R2 = data_R2_last_week["nf"]
 batep_R2 = data_R2_last_week["bateria"]
 # nuestros datos de lluvia: hay que ejecutar antes: a)load_files_R2.py b)get_mm_R2.py
 fn  = cwd / "datos" / "lluvia_R2.csv"
-lluvia_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+lluviaR2_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 
 # EQ-R3 NF RNUO
 fn  = cwd / "datos" / "nf_R3_last_week.csv"
@@ -83,20 +83,29 @@ with tab1:
         if option == "Intensidad":
             xdata = data_cim["Fecha"]
             ydata = data_cim["Lluvia Caida (mm)"] 
+            # intensisdad lluvia para R2
+            xdata_R2_lluvia = lluviaR2_15min["datetime"]
+            ydata_R2_lluvia = lluviaR2_15min["mm15min"]
+
         elif option == "Diaria":
             data_cim["date"] = data_cim["Fecha"].dt.date
             lluvia_x_dia = data_cim.groupby("date").sum(numeric_only = True)
             xdata = lluvia_x_dia.index
             ydata = lluvia_x_dia["Lluvia Caida (mm)"]
+            #lluvia diaria R2: mejorar: estoy apurado
+            lluviaR2_15min["date"] = lluviaR2_15min["datetime"].dt.date
+            lluvia_x_dia_R2 = lluviaR2_15min.groupby("date").sum(numeric_only = True)
+            xdata_R2_lluvia = lluviaR2_15min.index
+            ydata_R2_lluvia = lluvia_x_dia_R2["mm15min"]
 
-        fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación FICH</b>", "<b>Precipitación Cuenca Urbana</b>", "<b>Napa freática</b>"))
+        fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Campus UNL</b>", "<b>Precipitación Cuenca Urbana (Ministerio)</b>", "<b>Napa freática</b>"))
         # Niveles R1 (canal 1) y R5 (alcantarilla Lavaisse)
         fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Canal 1"), row=1, col=1)
         fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["nivel"], name="Alcantarilla 1 (R5)", mode="lines"), row=1, col=1)
         
         # Precipitacion FICH y R2 (taller ministerio)
         fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
-        fig.add_trace(go.Bar(x = lluvia_15min["datetime"], y = lluvia_15min["mm15min"], name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=3, col=1)
+        fig.add_trace(go.Bar(x = xdata_R2_lluvia, y = ydata_R2_lluvia, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=3, col=1)
         
         # Niveles Freaticos R2, R3, R4
         fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="markers+lines"), row=4, col=1)
