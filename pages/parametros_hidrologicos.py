@@ -95,7 +95,7 @@ with tab1:
             #lluvia diaria R2: mejorar: estoy apurado
             lluviaR2_15min["date"] = lluviaR2_15min["datetime"].dt.date
             lluvia_x_dia_R2 = lluviaR2_15min.groupby("date").sum(numeric_only = True)
-            xdata_R2_lluvia = lluviaR2_15min.index
+            xdata_R2_lluvia = lluvia_x_dia_R2.index
             ydata_R2_lluvia = lluvia_x_dia_R2["mm15min"]
 
         fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Campus UNL</b>", "<b>Precipitación Cuenca Urbana (Ministerio)</b>", "<b>Napa freática</b>"))
