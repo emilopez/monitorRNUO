@@ -109,7 +109,7 @@ with placeholder.container():
         data_cim = data_cim[["Fecha", "Lluvia Caida (mm)"]] 
             
         data_cim["date"] = data_cim["Fecha"].dt.date
-        lluvia_x_dia = data_cim.groupby("date").sum()
+        lluvia_x_dia = data_cim.groupby("date").sum(numeric_only=True)
         
         xdata = lluvia_x_dia.index
         ydata = lluvia_x_dia["Lluvia Caida (mm)"]
