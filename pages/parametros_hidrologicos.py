@@ -50,6 +50,28 @@ cwd = Path.cwd()
 fn  = cwd / "datos" / "nivel_R5.csv"
 r5_df = pd.read_csv(fn, sep=";",parse_dates=["datetime"])
 
+# EQ-R2 NF taller ministerio
+fn  = cwd / "datos" / "nf_R2_last_week.csv"
+data_R2_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+xdata_R2 = data_R2_last_week["datetime"]
+ydata_R2 = data_R2_last_week["nf"]
+batep_R2 = data_R2_last_week["bateria"]
+lluvia_R2= data_R2_last_week["cangilones"]*0.25
+
+# EQ-R3 NF RNUO
+fn  = cwd / "datos" / "nf_R3_last_week.csv"
+data_R3_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+xdata_R3 = data_R3_last_week["datetime"]
+ydata_R3 = data_R3_last_week["nf"]
+batep_R3 = data_R3_last_week["bateria"]
+
+# EQ-R4 NF La REDONDA
+fn  = cwd / "datos" / "nf_R4_last_week.csv"
+data_R4_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+xdata_R4 = data_R4_last_week["datetime"]
+ydata_R4 = data_R4_last_week["nf"]
+batep_R4 = data_R4_last_week["bateria"]
+
 with tab1:
     placeholder = st.empty()
 
@@ -58,46 +80,30 @@ with tab1:
         option = st.selectbox('Precipitación',('Diaria', 'Intensidad'))
         if option == "Intensidad":
             xdata = data_cim["Fecha"]
-            ydata = data_cim["Lluvia Caida (mm)"]
+            ydata = data_cim["Lluvia Caida (mm)"] 
         elif option == "Diaria":
             data_cim["date"] = data_cim["Fecha"].dt.date
             lluvia_x_dia = data_cim.groupby("date").sum(numeric_only = True)
             xdata = lluvia_x_dia.index
             ydata = lluvia_x_dia["Lluvia Caida (mm)"]
 
-        fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación</b>", "<b>Napa freática</b>"))
-
-        fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
+        fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación FICH</b>", "<b>Precipitación Cuenca Urbana</b>", "<b>Napa freática</b>"))
+        # Niveles R1 (canal 1) y R5 (alcantarilla Lavaisse)
         fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Canal 1"), row=1, col=1)
         fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["nivel"], name="Alcantarilla 1 (R5)", mode="lines"), row=1, col=1)
-
-
-        cwd = Path.cwd()
-        # EQ-R2 NF taller ministerio
-        fn  = cwd / "datos" / "nf_R2_last_week.csv"
-        data_R2_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
-        xdata_R2 = data_R2_last_week["datetime"]
-        ydata_R2 = data_R2_last_week["nf"]
-        batep_R2 = data_R2_last_week["bateria"]
-        # EQ-R3 NF RNUO
-        fn  = cwd / "datos" / "nf_R3_last_week.csv"
-        data_R3_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
-        xdata_R3 = data_R3_last_week["datetime"]
-        ydata_R3 = data_R3_last_week["nf"]
-        batep_R3 = data_R3_last_week["bateria"]
-        # EQ-R4 NF La REDONDA
-        fn  = cwd / "datos" / "nf_R4_last_week.csv"
-        data_R4_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
-        xdata_R4 = data_R4_last_week["datetime"]
-        ydata_R4 = data_R4_last_week["nf"]
-        batep_R4 = data_R4_last_week["bateria"]
-
+        
+        # Precipitacion FICH y R2 (taller ministerio)
+        fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
+        fig.add_trace(go.Bar(x = xdata_R2, y = lluvia_R2, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=3, col=1)
+        
+        # Niveles Freaticos R2, R3, R4
         fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="markers+lines"), row=3, col=1)
         fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="Reserva (R3)", mode="markers+lines"), row=3, col=1)
         fig.add_trace(go.Scattergl(x = xdata_R4, y = ydata_R4, name="La Redonda (R4)", mode="markers+lines"), row=3, col=1)
 
-        fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
+        fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
+        fig.update_yaxes(title_text="Precipitación [mm]",  row=3, col=1)
         fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=3, col=1)
         fig.update_xaxes(title_text="Fecha", row=3, col=1)
 
