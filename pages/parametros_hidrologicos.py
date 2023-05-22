@@ -97,15 +97,15 @@ with tab1:
         fig.add_trace(go.Bar(x = xdata_R2, y = lluvia_R2, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=3, col=1)
         
         # Niveles Freaticos R2, R3, R4
-        fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="markers+lines"), row=3, col=1)
-        fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="Reserva (R3)", mode="markers+lines"), row=3, col=1)
-        fig.add_trace(go.Scattergl(x = xdata_R4, y = ydata_R4, name="La Redonda (R4)", mode="markers+lines"), row=3, col=1)
+        fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="markers+lines"), row=4, col=1)
+        fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="Reserva (R3)", mode="markers+lines"), row=4, col=1)
+        fig.add_trace(go.Scattergl(x = xdata_R4, y = ydata_R4, name="La Redonda (R4)", mode="markers+lines"), row=4, col=1)
 
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Precipitación [mm]",  row=3, col=1)
-        fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=3, col=1)
-        fig.update_xaxes(title_text="Fecha", row=3, col=1)
+        fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=4, col=1)
+        fig.update_xaxes(title_text="Fecha", row=4, col=1)
 
         fig.update_layout(height=700)
 
