@@ -104,8 +104,8 @@ with tab1:
         fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["nivel"], name="Alcantarilla 1 (R5)", mode="lines"), row=1, col=1)
         
         # Precipitacion FICH y R2 (taller ministerio)
-        fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
-        fig.add_trace(go.Bar(x = xdata_R2_lluvia, y = ydata_R2_lluvia, name="Precipitación", marker_color='rgb(26, 118, 255,0)'), row=3, col=1)
+        fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación UNL", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
+        fig.add_trace(go.Bar(x = xdata_R2_lluvia, y = ydata_R2_lluvia, name="Precipitación Ministerio (R2)", marker_color='rgb(26, 118, 255,0)'), row=3, col=1)
         
         # Niveles Freaticos R2, R3, R4
         fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="MISPyH (R2)", mode="markers+lines"), row=4, col=1)
