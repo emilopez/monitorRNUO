@@ -52,7 +52,7 @@ with tab1:
     # 2da fila de graficas
     fig_fito_dt, fig_fito_rt, fig_zoop_dt, fig_zoop_rt = go.Figure(), go.Figure(), go.Figure(), go.Figure() 
     for punto in puntos:
-        idx = datos_calidad_agua["PUNTO"]== punto
+        idx = datos_calidad_agua["PUNTO"] == punto
         val = datos_calidad_agua.loc[idx,["FECHA", "Fitoplancton densidad total (ind/mL)", "Fitoplancton (riqueza total)", "Zooplancton densidad total (ind/L)", "Zooplancton (riqueza total)"]]
         fig_fito_dt.add_trace(go.Scattergl(x=val["FECHA"],y=val["Fitoplancton densidad total (ind/mL)"], name=punto))
         fig_fito_rt.add_trace(go.Scattergl(x=val["FECHA"],y=val["Fitoplancton (riqueza total)"], name=punto))

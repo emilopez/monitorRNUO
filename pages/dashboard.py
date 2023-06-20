@@ -23,10 +23,13 @@ st.write("# Monitor RNUO | Santa Fe")
 st.write("Proyecto Científico de Monitoreo Hidro-Ambiental de la Reserva Natural Urbana del Oeste.")
 
 
-fechas_muestreo = [datetime.datetime(2022,12,3), datetime.datetime(2023,2,24)]
-pH = {"Alcantarilla 1": [7.82, 7.84], 
-      "Alcantarilla 2": [7.88, 7.66], 
-      "Reservorio":     [8.44, 7,45]}
+fechas_muestreo = [datetime.datetime(2022,12,3), datetime.datetime(2023,2,24), datetime.datetime(2023,3,23),
+                   datetime.datetime(2023,3,30), datetime.datetime(2023,4,27), datetime.datetime(2023,5,30)]
+pH = {"Canal 1": [7.82, 7.84, 8.7, 7.49, 7.5, 8.0], 
+      "Canal 2": [7.88, 7.66, 8.9, 7.97, 7.6, 7.8], 
+      "Reservorio":     [8.44, 7.45, 8.1, 7.38, 6.8, 7.4]}
+
+data_pH = pd.DataFrame(pH, columns=['Canal 1', 'Canal 2', 'Reservorio', 'fecha'])
 
 def SetColor(y):
         if(y <= 1):
@@ -48,7 +51,7 @@ with placeholder.container():
     fig_col1, fig_col2, fig_col3, fig_col4 = st.columns(4)
     with fig_col1:
         # https://stackoverflow.com/questions/61892036/plotly-how-to-colorcode-plotly-graph-objects-bar-chart-using-python
-        y = np.array([7.81, 6.79, 7.45])
+        y = data_pH.iloc[-1:].to_numpy().flatten()
         fig = go.Figure()
         fig.add_trace(go.Bar(x = ["Canal 1","Canal 2", "Reservorio"], y = y, marker = dict(color = list(map(SetColor,y)))))
         fig.update_layout(title="pH  |  " + fechas_muestreo[-1].strftime("%d/%m/%Y"), yaxis_title = "pH ",  yaxis_range=[0,14],
