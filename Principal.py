@@ -30,6 +30,7 @@ show_pages(
         Page("pages/parametros_ambientales.py", "Parámetros Ambientales", "📊"),
         Page("pages/puntos_de_observacion.py", "Puntos de Observación", "🌎"),
         Page("pages/niveles_rio_salado.py", "Altura Río Salado", "♒"),
+        Page("pages/clasificacion.py", "Clasificación Satelital", ":satellite:"),
         Page("pages/acercade.py", "Acerca de...", ":clipboard:"),
     ]
 )
