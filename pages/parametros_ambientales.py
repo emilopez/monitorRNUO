@@ -26,7 +26,7 @@ tab1, tab2, tab3 = st.tabs(["DATOS", "CALIBRACIÓN SONDAS", "INCENDIOS"])
 with tab1:
     
     fn_calidad_agua  = cwd / "datos" / "RESULTADOS-calidad-de-agua.csv"
-    datos_calidad_agua = pd.read_csv(fn_calidad_agua, sep=";", parse_dates=["FECHA"])
+    datos_calidad_agua = pd.read_csv(fn_calidad_agua, sep=";", parse_dates=["FECHA"],dayfirst=True)
     
     fig_te, fig_pH, fig_CE, fig_OD = go.Figure(), go.Figure(), go.Figure(), go.Figure()
     puntos = "Canal 1", "Canal 2", "Canal 3"

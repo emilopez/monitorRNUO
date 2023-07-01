@@ -25,7 +25,7 @@ add_logo("logo.jpg")
 show_pages(
     [
         Page("Principal.py", "Principal", "🏠"),
-        Page("pages/dashboard.py", "Monitor general", ":computer:"),
+        #Page("pages/dashboard.py", "Monitor general", ":computer:"),
         Page("pages/parametros_hidrologicos.py", "Parámetros Hidrológicos", "📈"),
         Page("pages/parametros_ambientales.py", "Parámetros Ambientales", "📊"),
         Page("pages/puntos_de_observacion.py", "Puntos de Observación", "🌎"),
