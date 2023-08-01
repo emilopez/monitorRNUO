@@ -79,8 +79,10 @@ with tab1:
     placeholder = st.empty()
 
     with placeholder.container(): 
-        
-        option = st.selectbox('Precipitación',('Diaria', 'Intensidad'))
+        c1, c2, c3 = st.columns(3)
+        fecha_desde = c1.date_input("Fecha desde:", datetime.date(2019, 7, 6))
+        fecha_hasta = c2.date_input("Fecha hasta:", datetime.date(2019, 7, 6))
+        option = c3.selectbox('Precipitación',('Diaria', 'Intensidad'))
         if option == "Intensidad":
             xdata = data_cim["Fecha"]
             ydata = data_cim["Lluvia Caida (mm)"] 
@@ -99,25 +101,26 @@ with tab1:
             xdata_R2_lluvia = lluvia_x_dia_R2.index
             ydata_R2_lluvia = lluvia_x_dia_R2["mm15min"]
 
-        fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Campus UNL</b>", "<b>Precipitación Cuenca Urbana (Ministerio)</b>", "<b>Napa freática</b>"))
+        #fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Campus UNL</b>", "<b>Precipitación Cuenca Urbana (Ministerio)</b>", "<b>Napa freática</b>"))
+        fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Cuenca Urbana (Ministerio)</b>", "<b>Napa freática</b>"))
         # Niveles R1 (canal 1) y R5 (alcantarilla Lavaisse)
         fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Altura Canal 1 (R1)"), row=1, col=1)
         fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["nivel"], name="Altura Alcantarilla 1 (R5)", mode="lines"), row=1, col=1)
         
         # Precipitacion FICH y R2 (taller ministerio)
-        fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación UNL (Ciudad Univ.)", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
-        fig.add_trace(go.Bar(x = xdata_R2_lluvia, y = ydata_R2_lluvia, name="Precipitación Ministerio (R2)", marker_color='rgb(26, 118, 255,0)'), row=3, col=1)
+        #fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación UNL (Ciudad Univ.)", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
+        fig.add_trace(go.Bar(x = xdata_R2_lluvia, y = ydata_R2_lluvia, name="Precipitación Ministerio (R2)", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
         
         # Niveles Freaticos R2, R3, R4
-        fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="NF MISPyH (R2)", mode="markers+lines"), row=4, col=1)
-        fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="NF Reserva (R3)", mode="markers+lines"), row=4, col=1)
-        fig.add_trace(go.Scattergl(x = xdata_R4, y = ydata_R4, name="NF La Redonda (R4)", mode="markers+lines"), row=4, col=1)
+        fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="NF MISPyH (R2)", mode="markers+lines"), row=3, col=1)
+        fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="NF Reserva (R3)", mode="markers+lines"), row=3, col=1)
+        fig.add_trace(go.Scattergl(x = xdata_R4, y = ydata_R4, name="NF La Redonda (R4)", mode="markers+lines"), row=3, col=1)
 
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
+        #fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
-        fig.update_yaxes(title_text="Precipitación [mm]",  row=3, col=1)
-        fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=4, col=1)
-        fig.update_xaxes(title_text="Fecha", row=4, col=1)
+        fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=3, col=1)
+        fig.update_xaxes(title_text="Fecha", row=3, col=1)
 
         fig.update_layout(height=700)
 
