@@ -22,12 +22,11 @@ st.markdown("# Parámetros ambientales")
 
 cwd = Path.cwd()
 
-tab1, tab2, tab3 = st.tabs(["DATOS", "CALIBRACIÓN SONDAS", "INCENDIOS"])
+#tab1, tab2, tab3 = st.tabs(["DATOS", "CALIBRACIÓN SONDAS", "INCENDIOS"])
+tab1, tab2 = st.tabs(["CALIDAD DE AGUA", "INCENDIOS"])
 with tab1:
-    
     fn_calidad_agua  = cwd / "datos" / "RESULTADOS-calidad-de-agua.csv"
     datos_calidad_agua = pd.read_csv(fn_calidad_agua, sep=";", parse_dates=["FECHA"],dayfirst=True)
-    
     fig_te, fig_pH, fig_CE, fig_OD = go.Figure(), go.Figure(), go.Figure(), go.Figure()
     puntos = "Canal 1", "Canal 2", "Canal 3"
     for punto in puntos:
@@ -38,9 +37,9 @@ with tab1:
         fig_CE.add_trace(go.Scattergl(x=val["FECHA"], y=val["Conductividad (uS/cm)"], name=punto))
         val.dropna(inplace=True)
         fig_OD.add_trace(go.Scattergl(x=val["FECHA"], y=val["Sat OD %"], name=punto))
-    fig_te.update_layout(title="Temperatura", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+    fig_te.update_layout(title="Temperatura (ºC)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
     fig_pH.update_layout(title="pH", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
-    fig_CE.update_layout(title="Conductividad Eléctrica", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+    fig_CE.update_layout(title="Conductividad Eléctrica (uS)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
     fig_OD.update_layout(title="Oxígeno Disuelto (%)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
     
     fig_col1, fig_col2, fig_col3, fig_col4  = st.columns(4)
@@ -87,89 +86,56 @@ with tab1:
     fig_col2.plotly_chart(fig_ecoli, use_container_width=True)
     fig_col3.plotly_chart(fig_cloro, use_container_width=True)
 
-    
-   
-
+#with tab2:  
+#    fn  = cwd / "datos" / "multiparametricas.csv"
+#    datos = pd.read_csv(fn, sep=",")
+#    # creating a single-element container
+#    placeholder = st.empty()
+#    with placeholder.container():
+#        # create three columns
+#        c1, c2, c3 = st.columns(3)
+#        # fill in those three columns with respective metrics or KPIs
+#        c1.metric(label="pH ⏳", value=11, delta=12,)
+#        c2.metric(label="Conductividad Eléctrica (CE) 💍", value=21, delta=20,)
+#        c3.metric(label="Oxígeno Disuelto (OD)", value=31,delta=32,)
+#        st.write("### Test sondas")
+#        # create three columns for charts
+#        fig_col1, fig_col2, fig_col3 = st.columns(3)
+#        datos_canal1 = datos[datos["Muestra"] == "canal 1"]
+#        datos_canal2 = datos[datos["Muestra"] == "canal 2"]
+#        datos_reservorio = datos[datos["Muestra"] == "reservorio (bancos descanso)"]
+#        with fig_col1:
+#            sitios = ["Canal 1", "Canal 2", "Reservorio"]            
+#            fig = go.Figure(data=[
+#                    go.Bar(name='Sonda 1', x=sitios, y=[7.53, 7.15, np.nan]),
+#                    go.Bar(name='Sonda 2', x=sitios, y=[7.82, 7.88, 8.44]),
+#                    go.Bar(name='Sonda 3', x=sitios, y=[7.64, 7.75, 8.36])
+#                ])
+#            fig.update_layout(title="pH", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+#            st.plotly_chart(fig, use_container_width=True)
+#
+#        with fig_col2:
+#            sitios = ["Canal 1", "Canal 2", "Reservorio"]
+#            fig2 = go.Figure(data=[
+#                    go.Bar(name='Sonda 1', x=sitios, y=[208.3, 429.8, 3161]),
+#                    go.Bar(name='Sonda 3', x=sitios, y=[217.4, 752, 3175]),
+#                ])
+#            fig2.update_layout(title="Conductividad Eléctrica", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+#            st.plotly_chart(fig2, use_container_width=True)
+#        with fig_col3:
+#            sitios = ["Canal 1", "Canal 2", "Reservorio"]
+#            fig3 = go.Figure(data=[
+#                    go.Bar(name='Sonda 1', x=sitios, y=[np.nan,5.3, 4.23]),
+#                    go.Bar(name='Sonda 2', x=sitios, y=[6.64, 5.29, 5.17]),
+#                    go.Bar(name='Sonda 3', x=sitios, y=[6.4, 4.0, 3.5])
+#                ])
+#            fig3.update_layout(title="Oxígeno Disuelto", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+#            st.plotly_chart(fig3, use_container_width=True)
+#    with st.expander("Ver tabla de registros de sondas multiparamétricas"):
+#        with open(fn) as f:
+#            st.download_button('Download CSV', f)
+#        st.write(datos)
 with tab2:
-    
-    fn  = cwd / "datos" / "multiparametricas.csv"
-
-    datos = pd.read_csv(fn, sep=",")
-    # creating a single-element container
-    placeholder = st.empty()
-
-    with placeholder.container():
-            
-            # create three columns
-            c1, c2, c3 = st.columns(3)
-            # fill in those three columns with respective metrics or KPIs
-
-            c1.metric(
-                label="pH ⏳",
-                value=11,
-                delta=12,
-            )
-            
-            c2.metric(
-                label="Conductividad Eléctrica (CE) 💍",
-                value=21,
-                delta=20,
-            )
-            
-            c3.metric(
-                label="Oxígeno Disuelto (OD)",
-                value=31,
-                delta=32,
-            )
-            st.write("### Test sondas")
-            
-            
-            # create three columns for charts
-            fig_col1, fig_col2, fig_col3 = st.columns(3)
-
-            datos_canal1 = datos[datos["Muestra"] == "canal 1"]
-            datos_canal2 = datos[datos["Muestra"] == "canal 2"]
-            datos_reservorio = datos[datos["Muestra"] == "reservorio (bancos descanso)"]
-            
-            with fig_col1:
-                sitios = ["Canal 1", "Canal 2", "Reservorio"]            
-                fig = go.Figure(data=[
-                        go.Bar(name='Sonda 1', x=sitios, y=[7.53, 7.15, np.nan]),
-                        go.Bar(name='Sonda 2', x=sitios, y=[7.82, 7.88, 8.44]),
-                        go.Bar(name='Sonda 3', x=sitios, y=[7.64, 7.75, 8.36])
-                    ])
-                fig.update_layout(title="pH", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
-
-                st.plotly_chart(fig, use_container_width=True)
-
-            with fig_col2:
-                sitios = ["Canal 1", "Canal 2", "Reservorio"]
-                
-                fig2 = go.Figure(data=[
-                        go.Bar(name='Sonda 1', x=sitios, y=[208.3, 429.8, 3161]),
-                        go.Bar(name='Sonda 3', x=sitios, y=[217.4, 752, 3175]),
-                    ])
-                fig2.update_layout(title="Conductividad Eléctrica", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
-                st.plotly_chart(fig2, use_container_width=True)
-
-            with fig_col3:
-                
-                sitios = ["Canal 1", "Canal 2", "Reservorio"]
-                
-                fig3 = go.Figure(data=[
-                        go.Bar(name='Sonda 1', x=sitios, y=[np.nan,5.3, 4.23]),
-                        go.Bar(name='Sonda 2', x=sitios, y=[6.64, 5.29, 5.17]),
-                        go.Bar(name='Sonda 3', x=sitios, y=[6.4, 4.0, 3.5])
-                    ])
-                fig3.update_layout(title="Oxígeno Disuelto", barmode='group',legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
-
-                st.plotly_chart(fig3, use_container_width=True)
-
-    with st.expander("Ver tabla de registros de sondas multiparamétricas"):
-        with open(fn) as f:
-            st.download_button('Download CSV', f)
-        st.write(datos)
-with tab3:
     fn  = cwd / "datos" / "incendios.csv"
     df = pd.read_csv(fn, sep=",")
     
