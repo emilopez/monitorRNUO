@@ -33,7 +33,7 @@ col_inv.write("""
 - Instituto Nacional de Limnología (INALI), CONICET / UNL
 - Secretaría de Ambiente y Cambio Climático (SACC), Municipalidad de Santa Fe
 - Secretaría de Infraestructura y Gestión Hídrica (SIGH), Municipalidad de Santa Fe
-- Asociación Civil Contraversiones
+- Asociación Civil Contraversiones (ACC)
 """)
               
 col_est.write("""              
@@ -47,7 +47,7 @@ col_est.write("""
 - María Paula Gagliardi (SIGH)              
 - Martín Morales (AC Contraversiones)
 - María Claret (FICH / UNL)
-- Emanuel Blanco (AC Contraversiones)
+- Emanuel Blanco (ACC)
 - Lucas Palman (FICH / UNL)
 
 #### Community Manager
