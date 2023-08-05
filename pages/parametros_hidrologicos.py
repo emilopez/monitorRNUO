@@ -39,7 +39,7 @@ fn  = cwd / "datos" / "nf_R3.csv"
 r3_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 
 # EQ-R4 NF La REDONDA
-fn  = cwd / "datos" / "nf_R4_last_week.csv"
+fn  = cwd / "datos" / "nf_R4.csv"
 r4_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 
 # EQ-R5 nivel alcantarilla 1 RNUO
