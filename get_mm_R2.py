@@ -1,6 +1,7 @@
+import pandas as pd
 
-
-contenido = open("datos/lluvia_R2.csv").readlines()
+fn  = "datos/lluvia_R2.csv"
+contenido = open(fn).readlines()
 out = open("datos/lluvia_R2.csv", "w")
 header = f"{contenido[0].strip()};mm15min\n"
 out.write(header)
@@ -16,6 +17,8 @@ for i,linea in enumerate(contenido[2:],2):
     out.write(oline)
 out.close()
 
+lluviaR2_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+lluviaR2_15min.to_parquet("datos/lluvia_R2.parquet.gzip", compression='gzip')
 
 
 #contenido = contenido[1:]

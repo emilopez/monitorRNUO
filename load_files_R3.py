@@ -11,6 +11,7 @@ dfs = (pd.read_csv(f, sep=";", parse_dates=['datetime'], names=['datetime', 'bat
 eqR3   = pd.concat(dfs, ignore_index=True)
 
 eqR3.to_csv("datos/nf_R3.csv", sep=";", index=False)
+eqR3.to_parquet("datos/nf_R3.parquet.gzip", compression='gzip')
 
 last_week = eqR3[-10080:]
 last_week.to_csv("datos/nf_R3_last_week.csv", sep=";", index=False)

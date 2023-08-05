@@ -24,36 +24,43 @@ tab1, tab2 = st.tabs(["DATOS", "DISPOSITIVOS"])
 
 # R1 niveles CANAL 1 
 cwd = Path.cwd()
-fn  = cwd / "datos" / "distancia_R1.csv"
-r1_df = pd.read_csv(fn, sep=";", parse_dates=["datetime"])
+#fn  = cwd / "datos" / "distancia_R1.csv"
+#r1_df = pd.read_csv(fn, sep=";", parse_dates=["datetime"])
+fn  = cwd / "datos" / "distancia_R1.parquet.gzip"
+r1_df = pd.read_parquet(fn)
 
 # EQ-R2 NF taller ministerio
-fn  = cwd / "datos" / "nf_R2.csv"
-r2_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+fn  = cwd / "datos" / "nf_R2.parquet.gzip"
+#r2_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+r2_df = pd.read_parquet(fn)
+
 # -------> nuestros datos de lluvia: hay que ejecutar antes: a)load_files_R2.py b)get_mm_R2.py
-fn  = cwd / "datos" / "lluvia_R2.csv"
-lluviaR2_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+fn  = cwd / "datos" / "lluvia_R2.parquet.gzip"
+#lluviaR2_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+lluviaR2_15min = pd.read_parquet(fn)
 
 # EQ-R3 NF RNUO
-fn  = cwd / "datos" / "nf_R3.csv"
-r3_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+fn  = cwd / "datos" / "nf_R3.parquet.gzip"
+#r3_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+r3_df = pd.read_parquet(fn)
 
 # EQ-R4 NF La REDONDA
-fn  = cwd / "datos" / "nf_R4.csv"
-r4_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+fn  = cwd / "datos" / "nf_R4.parquet.gzip"
+#r4_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+r4_df = pd.read_parquet(fn)
 
 # EQ-R5 nivel alcantarilla 1 RNUO
 cwd = Path.cwd()
-fn  = cwd / "datos" / "nivel_R5.csv"
-r5_df = pd.read_csv(fn, sep=";", parse_dates=["datetime"], comment="#")
-r5_df['datetime'] = pd.to_datetime(r5_df['datetime'], errors='coerce')
+fn  = cwd / "datos" / "nivel_R5.parquet.gzip"
+#r5_df = pd.read_csv(fn, sep=";", parse_dates=["datetime"], comment="#")
+r5_df = pd.read_parquet(fn)
+#r5_df['datetime'] = pd.to_datetime(r5_df['datetime'], errors='coerce')
 r5_df = r5_df[((r5_df["nivel"] >= 0) & (r5_df["nivel"] < 140))]
 
 with tab1:
     placeholder = st.empty()
     with placeholder.container(): 
         c1, c2 = st.columns(2)
-        
         ultimo_dato = datetime.date(2023, 7, 31)
         quincena = datetime.timedelta(days=20)
         ultima_semana = ultimo_dato - quincena
@@ -108,8 +115,8 @@ with tab1:
 
         st.plotly_chart(fig, use_container_width=True)
 
-        with open(fn) as f:
-            st.download_button('Download CSV', f)
+        #with open(fn) as f:
+        #    st.download_button('Download CSV', f)
 with tab2:
     placeholder2 = st.empty()
     with placeholder2.container():
