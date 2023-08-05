@@ -32,6 +32,7 @@ col_inv.write("""
 - Centro de Estudios Fluviales e HidroAmbientales del Litoral (CEFHAL) - FICH / UNL
 - Instituto Nacional de Limnología (INALI), CONICET / UNL
 - Secretaría de Ambiente y Cambio Climático (SACC), Municipalidad de Santa Fe
+- Secretaría de Infraestructura y Gestión Hídrica (SIGH), Municipalidad de Santa Fe
 - Asociación Civil Contraversiones
 """)
               
@@ -43,6 +44,7 @@ col_est.write("""
 
 #### Colaboradores 
 - Luciana Manelli (FICH / UNL - SACC)
+- María Paula Gagliardi (SIGH)              
 - Martín Morales (AC Contraversiones)
 - María Claret (FICH / UNL)
 - Emanuel Blanco (AC Contraversiones)

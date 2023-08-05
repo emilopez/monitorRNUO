@@ -26,9 +26,9 @@ show_pages(
     [
         Page("Principal.py", "Principal", "🏠"),
         #Page("pages/dashboard.py", "Monitor general", ":computer:"),
-        Page("pages/parametros_hidrologicos.py", "Parámetros Hidrológicos", "📈"),
-        Page("pages/parametros_ambientales.py", "Parámetros Ambientales", "📊"),
-        Page("pages/puntos_de_observacion.py", "Puntos de Observación", "🌎"),
+        Page("pages/parametros_hidrologicos.py", "Datos Hidrológicos", "📈"),
+        Page("pages/parametros_ambientales.py", "Datos Ambientales", "📊"),
+        Page("pages/puntos_de_observacion.py", "Sitios de Observación", "🌎"),
         Page("pages/niveles_rio_salado.py", "Altura Río Salado", "♒"),
         Page("pages/clasificacion.py", "Clasificación Satelital", ":satellite:"),
         Page("pages/acercade.py", "Acerca de...", ":clipboard:"),
