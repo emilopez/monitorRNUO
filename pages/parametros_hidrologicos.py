@@ -13,11 +13,11 @@ from plotly.subplots import make_subplots
 
 
 
-st.set_page_config(page_title="Parámetros Hidrológicos", 
+st.set_page_config(page_title="Datos Hidrológicos", 
                     page_icon="📈", 
                     layout="wide")
 add_logo("logo.jpg")
-st.markdown("# Parámetros Hidrológicos")
+st.markdown("# Datos Hidrológicos")
 st.write("""Niveles hidrométricos, precipitación y profundidad de napa freática""")
 
 tab1, tab2 = st.tabs(["DATOS", "DISPOSITIVOS"])

@@ -12,12 +12,12 @@ import plotly.express as px
 
 
 
-st.set_page_config(page_title="Parámetros ambientales", 
+st.set_page_config(page_title="Datos ambientales", 
                     page_icon="♒", 
                     layout="wide")
 add_logo("logo.jpg")
 
-st.markdown("# Parámetros ambientales")
+st.markdown("# Datos ambientales")
 #st.write("""Registros mediante sondas multiparamétricas""")
 
 cwd = Path.cwd()
