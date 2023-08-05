@@ -25,99 +25,81 @@ tab1, tab2 = st.tabs(["DATOS", "DISPOSITIVOS"])
 # R1 niveles CANAL 1 
 cwd = Path.cwd()
 fn  = cwd / "datos" / "distancia_R1.csv"
-r1_df = pd.read_csv(fn, sep=";")
-
-## ultimos 14 dias (para un T=1min) = 14*24*60 = 7200
-cant_dias = 60
-nobs = cant_dias * 24 * 60
-r1_df = r1_df[-nobs:]
-
-fechaR1 = r1_df["datetime"]
-distaR1 = 300 - r1_df["distancia"]
-voltaR1 = r1_df["voltaje"]
-
-# estacion pegasus nueva CIM
-fn  = cwd / "datos" / "lluvia_cim" / "estacion_cim_nueva_solo_lluvia.csv"
-data_cim = pd.read_csv(fn, parse_dates=["Fecha"], dayfirst=True, sep=";")
-data_cim = data_cim[["Fecha", "Lluvia Caida (mm)"]]
-
-# ultimos 5 dias (para un T=15min) = 14*24*4 = 480
-nobs = cant_dias * 24 * 4
-data_cim = data_cim[-nobs:]
+r1_df = pd.read_csv(fn, sep=";", parse_dates=["datetime"])
 
 # EQ-R2 NF taller ministerio
-fn  = cwd / "datos" / "nf_R2_last_week.csv"
-data_R2_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
-xdata_R2 = data_R2_last_week["datetime"]
-ydata_R2 = data_R2_last_week["nf"]
-batep_R2 = data_R2_last_week["bateria"]
-# nuestros datos de lluvia: hay que ejecutar antes: a)load_files_R2.py b)get_mm_R2.py
+fn  = cwd / "datos" / "nf_R2.csv"
+r2_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
+# -------> nuestros datos de lluvia: hay que ejecutar antes: a)load_files_R2.py b)get_mm_R2.py
 fn  = cwd / "datos" / "lluvia_R2.csv"
 lluviaR2_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 
 # EQ-R3 NF RNUO
-fn  = cwd / "datos" / "nf_R3_last_week.csv"
-data_R3_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
-xdata_R3 = data_R3_last_week["datetime"]
-ydata_R3 = data_R3_last_week["nf"]
-batep_R3 = data_R3_last_week["bateria"]
+fn  = cwd / "datos" / "nf_R3.csv"
+r3_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 
 # EQ-R4 NF La REDONDA
 fn  = cwd / "datos" / "nf_R4_last_week.csv"
-data_R4_last_week = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
-xdata_R4 = data_R4_last_week["datetime"]
-ydata_R4 = data_R4_last_week["nf"]
-batep_R4 = data_R4_last_week["bateria"]
+r4_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 
-# R5 nivel alcantarilla 1 RNUO
+# EQ-R5 nivel alcantarilla 1 RNUO
 cwd = Path.cwd()
 fn  = cwd / "datos" / "nivel_R5.csv"
-r5_df = pd.read_csv(fn, sep=";",parse_dates=["datetime"])
-r5_df = r5_df[(r5_df["nivel"] >= 0) & (r5_df["nivel"] < 140)]
+r5_df = pd.read_csv(fn, sep=";", parse_dates=["datetime"], comment="#")
+r5_df['datetime'] = pd.to_datetime(r5_df['datetime'], errors='coerce')
+r5_df = r5_df[((r5_df["nivel"] >= 0) & (r5_df["nivel"] < 140))]
 
 with tab1:
     placeholder = st.empty()
-
     with placeholder.container(): 
-        c1, c2, c3 = st.columns(3)
-        fecha_desde = c1.date_input("Fecha desde:", datetime.date(2019, 7, 6))
-        fecha_hasta = c2.date_input("Fecha hasta:", datetime.date(2019, 7, 6))
-        option = c3.selectbox('Precipitación',('Diaria', 'Intensidad'))
+        c1, c2 = st.columns(2)
+        
+        ultimo_dato = datetime.date(2023, 7, 31)
+        quincena = datetime.timedelta(days=20)
+        ultima_semana = ultimo_dato - quincena
+        fecha_desde = c1.date_input("Rango de fechas", ultima_semana)
+        fecha_hasta = fecha_desde + quincena
+        c1.write(f"Fecha hasta: {fecha_hasta}")
+        
+        idx = ((r1_df.datetime.dt.date >= fecha_desde) & (r1_df.datetime.dt.date <= fecha_hasta))
+        r1_df = r1_df[idx]
+        idx = ((r2_df.datetime.dt.date >= fecha_desde) & (r2_df.datetime.dt.date <= fecha_hasta))
+        r2_df = r2_df[idx]
+        idx = ((lluviaR2_15min.datetime.dt.date >= fecha_desde) & (lluviaR2_15min.datetime.dt.date <= fecha_hasta))
+        lluviaR2_15min = lluviaR2_15min[idx]
+        idx = ((r3_df.datetime.dt.date >= fecha_desde) & (r3_df.datetime.dt.date <= fecha_hasta))
+        r3_df = r3_df[idx]
+        idx = ((r4_df.datetime.dt.date >= fecha_desde) & (r4_df.datetime.dt.date <= fecha_hasta))
+        r4_df = r4_df[idx]
+        idx = ((r5_df.datetime.dt.date >= fecha_desde) & (r5_df.datetime.dt.date <= fecha_hasta))
+        r5_df = r5_df[idx]
+
+        option = c2.selectbox('Precipitación',('Diaria', 'Intensidad'))
         if option == "Intensidad":
-            xdata = data_cim["Fecha"]
-            ydata = data_cim["Lluvia Caida (mm)"] 
             # intensisdad lluvia para R2
             xdata_R2_lluvia = lluviaR2_15min["datetime"]
             ydata_R2_lluvia = lluviaR2_15min["mm15min"]
-
         elif option == "Diaria":
-            data_cim["date"] = data_cim["Fecha"].dt.date
-            lluvia_x_dia = data_cim.groupby("date").sum(numeric_only = True)
-            xdata = lluvia_x_dia.index
-            ydata = lluvia_x_dia["Lluvia Caida (mm)"]
             #lluvia diaria R2: mejorar: estoy apurado
             lluviaR2_15min["date"] = lluviaR2_15min["datetime"].dt.date
             lluvia_x_dia_R2 = lluviaR2_15min.groupby("date").sum(numeric_only = True)
             xdata_R2_lluvia = lluvia_x_dia_R2.index
             ydata_R2_lluvia = lluvia_x_dia_R2["mm15min"]
 
-        #fig = make_subplots(rows=4, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Campus UNL</b>", "<b>Precipitación Cuenca Urbana (Ministerio)</b>", "<b>Napa freática</b>"))
-        fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Cuenca Urbana (Ministerio)</b>", "<b>Napa freática</b>"))
+        fig = make_subplots(rows=3, cols=1, shared_xaxes=True, vertical_spacing=0.1, subplot_titles=("<b>Altura hidrométrica</b>", "<b>Precipitación Cuenca Urbana</b>", "<b>Napa freática</b>"))
         # Niveles R1 (canal 1) y R5 (alcantarilla Lavaisse)
-        fig.add_trace(go.Scattergl(x = fechaR1, y = distaR1, mode="lines", name="Altura Canal 1 (R1)"), row=1, col=1)
-        fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["nivel"], name="Altura Alcantarilla 1 (R5)", mode="lines"), row=1, col=1)
+        fig.add_trace(go.Scattergl(x = r1_df.datetime, y = 300-r1_df.distancia, mode="lines", name="Altura Canal 1 (R1)"), row=1, col=1)
+        fig.add_trace(go.Scattergl(x = r5_df.datetime, y = r5_df.nivel, name="Altura Alcantarilla 1 (R5)", mode="lines"), row=1, col=1)
         
-        # Precipitacion FICH y R2 (taller ministerio)
-        #fig.add_trace(go.Bar(x = xdata, y = ydata, name="Precipitación UNL (Ciudad Univ.)", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
+        # Precipitacion R2 (taller ministerio)
         fig.add_trace(go.Bar(x = xdata_R2_lluvia, y = ydata_R2_lluvia, name="Precipitación Ministerio (R2)", marker_color='rgb(26, 118, 255,0)'), row=2, col=1)
         
         # Niveles Freaticos R2, R3, R4
-        fig.add_trace(go.Scattergl(x = xdata_R2, y = ydata_R2, name="NF MISPyH (R2)", mode="markers+lines"), row=3, col=1)
-        fig.add_trace(go.Scattergl(x = xdata_R3, y = ydata_R3, name="NF Reserva (R3)", mode="markers+lines"), row=3, col=1)
-        fig.add_trace(go.Scattergl(x = xdata_R4, y = ydata_R4, name="NF La Redonda (R4)", mode="markers+lines"), row=3, col=1)
+        fig.add_trace(go.Scattergl(x = r2_df.datetime, y = r2_df.nf, name="NF MISPyH (R2)", mode="lines"), row=3, col=1)
+        fig.add_trace(go.Scattergl(x = r3_df.datetime, y = r3_df.nf, name="NF Reserva (R3)", mode="lines"), row=3, col=1)
+        fig.add_trace(go.Scattergl(x = r4_df.datetime, y = r4_df.nf, name="NF La Redonda (R4)", mode="lines"), row=3, col=1)
 
         fig.update_yaxes(title_text="Nivel [cm]", range=[0, 150], row=1, col=1)
-        #fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Precipitación [mm]",  row=2, col=1)
         fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=3, col=1)
         fig.update_xaxes(title_text="Fecha", row=3, col=1)
@@ -132,11 +114,11 @@ with tab2:
     placeholder2 = st.empty()
     with placeholder2.container():
         fig = go.Figure()
-        fig.add_trace(go.Scattergl(x = fechaR1[fechaR1>="2023-04-01"], y = voltaR1[fechaR1>="2023-04-01"]*92.59-296.28, mode="markers+lines", name="R1 Nivel (Canal 1 Reserva)"))
-        fig.add_trace(go.Scattergl(x = xdata_R2[-1400:], y = batep_R2[-1400:], mode="markers+lines", name="R2 NF (MISPyH)"))
-        fig.add_trace(go.Scattergl(x = xdata_R3[-1400:], y = batep_R3[-1400:], mode="markers+lines", name="R3 NF (Reserva)"))
-        fig.add_trace(go.Scattergl(x = xdata_R4[-1400:], y = batep_R4[-1400:], mode="markers+lines", name="R4 NF (La Redonda)"))
-        fig.add_trace(go.Scattergl(x = r5_df["datetime"], y = r5_df["bateria"], name="R5 Alcantarilla 1 (Reserva)", mode="markers"))
+        fig.add_trace(go.Scattergl(x = r1_df.datetime, y = r1_df.voltaje*92.59-296.28, mode="lines", name="R1 Nivel (Canal 1 Reserva)"))
+        fig.add_trace(go.Scattergl(x = r2_df.datetime, y = r2_df.bateria, mode="lines", name="R2 NF/Pluvio (MISPyH)"))
+        fig.add_trace(go.Scattergl(x = r3_df.datetime, y = r3_df.bateria, mode="lines", name="R3 NF (Reserva)"))
+        fig.add_trace(go.Scattergl(x = r4_df.datetime, y = r4_df.bateria, mode="lines", name="R4 NF (La Redonda)"))
+        fig.add_trace(go.Scattergl(x = r5_df.datetime, y = r5_df.bateria, mode="lines", name="R5 Alcantarilla 1 (Reserva)"))
 
         fig.update_layout(title="Voltaje equipos",legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
         st.plotly_chart(fig, use_container_width=True)
