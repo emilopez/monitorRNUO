@@ -66,7 +66,7 @@ with open('datos/lluvia_R2_diaria.pickle', 'rb') as file:
 y = np.arange(1,13)
 x = np.arange(1,32)
 
-fig_mapa_lluvia = px.imshow(lluvia_anio, color_continuous_scale='spectral', origin='lower', aspect="auto",
+fig_mapa_lluvia = px.imshow(lluvia_anio, color_continuous_scale='inferno_r', origin='lower', aspect="auto",
                 labels=dict(x="Mes", y="Día del mes", color="Precipitación [mm]"),
                 x=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
                 #x = list(range(1,13)),
