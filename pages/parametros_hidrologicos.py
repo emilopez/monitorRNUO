@@ -77,7 +77,7 @@ with tab1:
     placeholder = st.empty()
     with placeholder.container(): 
         
-        c1, c2 = st.columns([1.2,2.8])
+        c1, c2 = st.columns([1.7,2.3])
         #c2.caption("Mapa de lluvias")
         c2.plotly_chart(fig_mapa_lluvia, use_container_width=True)
         ultimo_dato = datetime.date(2023, 7, 31)  ## <<----- FECHA ULTIMO DATO UPDATE!!!
