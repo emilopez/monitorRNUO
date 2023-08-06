@@ -1,4 +1,5 @@
 import datetime
+import pickle
 
 from pathlib import Path
 
@@ -8,6 +9,7 @@ from streamlit_extras.app_logo import add_logo
 import pandas as pd
 import numpy as np
 
+import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
@@ -57,16 +59,33 @@ r5_df = pd.read_parquet(fn)
 #r5_df['datetime'] = pd.to_datetime(r5_df['datetime'], errors='coerce')
 r5_df = r5_df[((r5_df["nivel"] >= 0) & (r5_df["nivel"] < 140))]
 
+# Leer el NumPy array desde el archivo
+with open('datos/lluvia_R2_diaria.pickle', 'rb') as file:
+    lluvia_anio = pickle.load(file)
+
+y = np.arange(1,13)
+x = np.arange(1,32)
+
+fig_mapa_lluvia = px.imshow(lluvia_anio, color_continuous_scale='spectral', origin='lower', aspect="auto",
+                labels=dict(x="Mes", y="Día del mes", color="Precipitación [mm]"),
+                x=['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+                #x = list(range(1,13)),
+                y = list(range(1,32)))
+fig_mapa_lluvia.update_layout(title="Mapa de lluvias", coloraxis_showscale=False, height=135, modebar={'remove': True}, margin=dict(l=20, r=20, t=40, b=20),)
+#fig_mapa_lluvia.update_xaxes(side="top")
 with tab1:
     placeholder = st.empty()
     with placeholder.container(): 
-        c1, c2 = st.columns(2)
-        ultimo_dato = datetime.date(2023, 7, 31)
+        
+        c1, c2 = st.columns([1.2,2.8])
+        #c2.caption("Mapa de lluvias")
+        c2.plotly_chart(fig_mapa_lluvia, use_container_width=True)
+        ultimo_dato = datetime.date(2023, 7, 31)  ## <<----- FECHA ULTIMO DATO UPDATE!!!
         quincena = datetime.timedelta(days=20)
         ultima_semana = ultimo_dato - quincena
-        fecha_desde = c1.date_input("Rango de fechas", ultima_semana)
+        fecha_desde = c1.date_input("Seleccione fecha", ultima_semana)
         fecha_hasta = fecha_desde + quincena
-        c1.write(f"Fecha hasta: {fecha_hasta}")
+        #c2.write(f"Fecha hasta: {fecha_hasta}")
         
         idx = ((r1_df.datetime.dt.date >= fecha_desde) & (r1_df.datetime.dt.date <= fecha_hasta))
         r1_df = r1_df[idx]
@@ -81,7 +100,7 @@ with tab1:
         idx = ((r5_df.datetime.dt.date >= fecha_desde) & (r5_df.datetime.dt.date <= fecha_hasta))
         r5_df = r5_df[idx]
 
-        option = c2.selectbox('Precipitación',('Diaria', 'Intensidad'))
+        option = c1.selectbox('Precipitación',('Diaria', 'Intensidad'))
         if option == "Intensidad":
             # intensisdad lluvia para R2
             xdata_R2_lluvia = lluviaR2_15min["datetime"]
@@ -111,8 +130,7 @@ with tab1:
         fig.update_yaxes(title_text="Profundidad [cm]", autorange="reversed", row=3, col=1)
         fig.update_xaxes(title_text="Fecha", row=3, col=1)
 
-        fig.update_layout(height=700)
-
+        fig.update_layout(height=700, margin=dict(l=20, r=20, t=20, b=20))
         st.plotly_chart(fig, use_container_width=True)
 
         #with open(fn) as f:

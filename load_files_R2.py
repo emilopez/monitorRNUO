@@ -1,7 +1,9 @@
 import os
 import glob
+import pickle
 
 import pandas as pd
+import numpy as np
 
 path = r'datos/R2-NF-Taller-Ministerio/'              
 all_files = glob.glob(os.path.join(path, "*.CSV"))
@@ -42,6 +44,31 @@ out.close()
 
 lluviaR2_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 lluviaR2_15min.to_parquet("datos/lluvia_R2.parquet.gzip", compression='gzip')
+
+# genero un DF con la lluvia por dia
+lluviaR2_15min["date"] = lluviaR2_15min["datetime"].dt.date
+lluvia_x_dia_R2 = lluviaR2_15min.groupby("date").sum(numeric_only = True)
+lluvia_x_dia_R2["mm"] = lluvia_x_dia_R2["mm15min"]
+lluvia_x_dia_R2 = lluvia_x_dia_R2["mm"]
+lluvia_x_dia_R2.to_csv("datos/lluvia_R2_diaria.csv", sep=";")
+
+data = open("datos/lluvia_R2_diaria.csv")
+data.readline() # salteo el primer renglon pq esta el header
+
+# creo matriz con NaN
+anio = np.full((31,12), np.nan)
+
+# cargo mm en fila (dia), columna (mes)
+for line in data:
+    line = line.strip();
+    fecha,mm = line.split(";")
+    a,m,d = fecha.split("-")
+    m, d = int(m), int(d)
+    anio[d-1,m-1] = mm
+
+# Guardar el NumPy array en un archivo
+with open('datos/lluvia_R2_diaria.pickle', 'wb') as file:
+    pickle.dump(anio, file)
 
 #contenido = open("datos/lluvia_R2.csv").readlines()
 #contenido = contenido[1:]
