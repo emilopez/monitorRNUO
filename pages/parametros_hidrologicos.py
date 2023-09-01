@@ -36,7 +36,7 @@ fn  = cwd / "datos" / "nf_R2.parquet.gzip"
 #r2_df = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 r2_df = pd.read_parquet(fn)
 
-# -------> nuestros datos de lluvia: hay que ejecutar antes: a)load_files_R2.py b)get_mm_R2.py
+# -------> nuestros datos de lluvia: hay que ejecutar antes: load_files_R2.py
 fn  = cwd / "datos" / "lluvia_R2.parquet.gzip"
 #lluviaR2_15min = pd.read_csv(fn, parse_dates=["datetime"], sep=";")
 lluviaR2_15min = pd.read_parquet(fn)
