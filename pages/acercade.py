@@ -40,7 +40,7 @@ col_est.write("""
 #### Estudiantes / Pasantes
 - Giuliana Luna (FICH / UNL)
 - Ayelén Miranda (ESS-FBCB / UNL)
-- Alex Mendoza (FICH / UNL)
+- Ariel Costanzo (FRParaá / UTN)
 
 #### Colaboradores 
 - Luciana Manelli (FICH / UNL - SACC)
