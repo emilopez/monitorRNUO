@@ -70,21 +70,25 @@ with tab1:
     fig_col4.plotly_chart(fig_zoop_rt, use_container_width=True)
 
     # 3er fila de graficas
-    fig_ecoli, fig_colit, fig_cloro = go.Figure(), go.Figure(), go.Figure()
+    fig_ecoli, fig_colit, fig_cloro, fig_micro = go.Figure(), go.Figure(), go.Figure(), go.Figure()
     for punto in puntos:
         idx = datos_calidad_agua["PUNTO"]== punto
-        val = datos_calidad_agua.loc[idx, ["FECHA", "Coliformes totales (NMP/100 mL)", "E. coli (NMP/100 mL)", "Clorofila-a (µg/L)"]]
+        val = datos_calidad_agua.loc[idx, ["FECHA", "Coliformes totales (NMP/100 mL)", "E. coli (NMP/100 mL)", "Clorofila-a (µg/L)", "Microplásticos (partículas/L)"]]
         fig_colit.add_trace(go.Scattergl(x=val["FECHA"], name=punto, y=val["Coliformes totales (NMP/100 mL)"]))
         fig_ecoli.add_trace(go.Scattergl(x=val["FECHA"], name=punto, y=val["E. coli (NMP/100 mL)"]))
         fig_cloro.add_trace(go.Scattergl(x=val["FECHA"], name=punto, y=val["Clorofila-a (µg/L)"]))
+        fig_micro.add_trace(go.Scattergl(x=val["FECHA"], name=punto, y=val["Microplásticos (partículas/L)"]))
     fig_colit.update_layout(title="Coliformes totales (NMP/100 mL)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
     fig_ecoli.update_layout(title="E. coli (NMP/100 mL)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
     fig_cloro.update_layout(title="Clorofila-a (µg/L)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
-    
-    fig_col1, fig_col2, fig_col3 = st.columns(3)
+    fig_micro.update_layout(title="Microplásticos (partículas/L)", legend=dict(orientation="h", yanchor="bottom", y=1.02,xanchor="right", x=0.9))
+
+    fig_col1, fig_col2, fig_col3, fig_col4 = st.columns(4)
     fig_col1.plotly_chart(fig_colit, use_container_width=True)
     fig_col2.plotly_chart(fig_ecoli, use_container_width=True)
     fig_col3.plotly_chart(fig_cloro, use_container_width=True)
+    fig_col4.plotly_chart(fig_micro, use_container_width=True)
+    
 
 #with tab2:  
 #    fn  = cwd / "datos" / "multiparametricas.csv"
