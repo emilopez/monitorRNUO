@@ -56,15 +56,15 @@ data = open("datos/lluvia_R2_diaria.csv")
 data.readline() # salteo el primer renglon pq esta el header
 
 # creo matriz con NaN
-anio = np.full((31,12), np.nan)
+anio = np.full((31,12,2), np.nan)
 
 # cargo mm en fila (dia), columna (mes)
 for line in data:
     line = line.strip();
     fecha,mm = line.split(";")
     a,m,d = fecha.split("-")
-    m, d = int(m), int(d)
-    anio[d-1,m-1] = mm
+    a, m, d = int(a), int(m), int(d)
+    anio[d-1,m-1,a-2023] = mm
 
 # Guardar el NumPy array en un archivo
 with open('datos/lluvia_R2_diaria.pickle', 'wb') as file:
