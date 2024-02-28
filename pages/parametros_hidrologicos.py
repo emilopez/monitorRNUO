@@ -21,9 +21,6 @@ add_logo("logo.jpg")
 st.markdown("# Datos Hidrológicos")
 st.write("""Niveles hidrométricos, precipitación y profundidad de napa freática""")
 
-#st.write('<style>div.row-widget.stRadio > div{flex-direction:row;justify-content: center;} </style>', unsafe_allow_html=True)
-#st.write('<style>div.st-bf{flex-direction:column;} div.st-ag{font-weight:bold;padding-left:2px;}</style>', unsafe_allow_html=True)
-
 tab1, tab2 = st.tabs(["DATOS", "DISPOSITIVOS"])
 
 # R1 niveles CANAL 1 
@@ -76,7 +73,7 @@ with tab1:
         
         c1, c2 = st.columns([1.7,2.3])
         #c2.caption("Mapa de lluvias")
-        anio_mapa_lluvia = c2.selectbox("Mapa de lluvias. Año", ("2023", "2024"))
+        anio_mapa_lluvia = c2.selectbox("Mapa de lluvias. Año", ("2024", "2023"))
         anio_mapa_lluvia = int(anio_mapa_lluvia)
         fig_mapa_lluvia = px.imshow(lluvia_anio[:,:,anio_mapa_lluvia-2023], color_continuous_scale='inferno_r', origin='lower', aspect="auto",
                 labels=dict(x="Mes", y="Día del mes", color="Precipitación [mm]"),
@@ -86,7 +83,7 @@ with tab1:
         fig_mapa_lluvia.update_layout(coloraxis_showscale=False, height=145, modebar={'remove': True}, margin=dict(l=20, r=20, t=40, b=20),)
 
         c2.plotly_chart(fig_mapa_lluvia, use_container_width=True)
-        ultimo_dato = datetime.date(2024, 1, 22)  ## <<----- FECHA ULTIMO DATO UPDATE!!!
+        ultimo_dato = datetime.date(2024, 2, 28)  ## <<----- FECHA ULTIMO DATO UPDATE!!!
         quincena = datetime.timedelta(days=20)
         ultima_semana = ultimo_dato - quincena
         fecha_desde = c1.date_input("Seleccione fecha", ultima_semana)
