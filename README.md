@@ -11,7 +11,7 @@ https://monitorreservasfe.streamlit.app/
 Ojo, streamlit lo installo con `pip` en vez de `conda`, sino no funca. El resto de las dependencias se instalan solitas. 
 
 ```
-conda env create -n webRNUO python=3.10
+conda create -n webRNUO python=3.10
 pip install streamlit
 conda install plotly
 ```

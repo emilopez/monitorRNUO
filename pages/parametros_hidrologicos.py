@@ -83,7 +83,7 @@ with tab1:
         fig_mapa_lluvia.update_layout(coloraxis_showscale=False, height=145, modebar={'remove': True}, margin=dict(l=20, r=20, t=40, b=20),)
 
         c2.plotly_chart(fig_mapa_lluvia, use_container_width=True)
-        ultimo_dato = datetime.date(2024, 2, 28)  ## <<----- FECHA ULTIMO DATO UPDATE!!!
+        ultimo_dato = datetime.date(2024, 7, 26)  ## <<----- FECHA ULTIMO DATO UPDATE!!!
         quincena = datetime.timedelta(days=20)
         ultima_semana = ultimo_dato - quincena
         fecha_desde = c1.date_input("Seleccione fecha", ultima_semana)
